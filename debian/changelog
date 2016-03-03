@@ -1,4 +1,4 @@
-python-neutron-lib (0.0.2-1) unstable; urgency=medium
+python-neutron-lib (0.0.2-1) experimental; urgency=medium
 
   * Initial release. (Closes: #816605)
 
