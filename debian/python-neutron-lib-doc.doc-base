@@ -1,0 +1,9 @@
+Document: python-neutron-lib-doc
+Title: neutron-lib Documentation
+Author: N/A
+Abstract: Sphinx documentation for neutron-lib
+Section: Programming/Python
+
+Format: HTML
+Index: /usr/share/doc/python-neutron-lib-doc/html/index.html
+Files: /usr/share/doc/python-neutron-lib-doc/html/*

@@ -1,0 +1,5 @@
+python-neutron-lib (0.0.2-1) unstable; urgency=medium
+
+  * Initial release. (Closes: #816605)
+
+ -- Thomas Goirand <zigo@debian.org>  Thu, 03 Mar 2016 20:42:05 +0800

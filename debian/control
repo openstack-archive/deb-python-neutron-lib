@@ -1,0 +1,109 @@
+Source: python-neutron-lib
+Section: python
+Priority: optional
+Maintainer: PKG OpenStack <openstack-devel@lists.alioth.debian.org>
+Uploaders: Thomas Goirand <zigo@debian.org>,
+Build-Depends: debhelper (>= 9),
+               dh-python,
+               python-all,
+               python-pbr (>= 1.8),
+               python-setuptools,
+               python-sphinx,
+               python3-all,
+               python3-pbr (>= 1.8),
+               python3-setuptools,
+Build-Depends-Indep: python-babel,
+                     python-coverage,
+                     python-debtcollector (>= 1.2.0),
+                     python-hacking,
+                     python-os-testr (>= 0.4.1),
+                     python-oslo.config (>= 3.7.0),
+                     python-oslo.db (>= 4.1.0),
+                     python-oslo.i18n (>= 2.1.0),
+                     python-oslo.log (>= 1.14.0),
+                     python-oslo.messaging (>= 4.0.0),
+                     python-oslo.service (>= 1.0.0),
+                     python-oslo.utils (>= 3.5.0),
+                     python-oslosphinx (>= 2.5.0),
+                     python-oslotest (>= 1.10.0),
+                     python-testscenarios,
+                     python-testtools (>= 1.4.0),
+                     python3-babel,
+                     python3-debtcollector (>= 1.2.0),
+                     python3-os-testr (>= 0.4.1),
+                     python3-oslo.config (>= 3.7.0),
+                     python3-oslo.db (>= 4.1.0),
+                     python3-oslo.i18n (>= 2.1.0),
+                     python3-oslo.log (>= 1.14.0),
+                     python3-oslo.messaging (>= 4.0.0),
+                     python3-oslo.service (>= 1.0.0),
+                     python3-oslo.utils (>= 3.5.0),
+                     python3-oslotest (>= 1.10.0),
+                     python3-subunit,
+                     python3-testscenarios,
+                     python3-testtools (>= 1.4.0),
+                     subunit,
+                     testrepository,
+Standards-Version: 3.9.7
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=openstack/python-neutron-lib.git
+Vcs-Git: git://anonscm.debian.org/openstack/python-neutron-lib.git
+Homepage: http://www.openstack.org/
+
+Package: python-neutron-lib
+Architecture: all
+Depends: python-babel,
+         python-debtcollector (>= 1.2.0),
+         python-oslo.config (>= 3.7.0),
+         python-oslo.db (>= 4.1.0),
+         python-oslo.i18n (>= 2.1.0),
+         python-oslo.log (>= 1.14.0),
+         python-oslo.messaging (>= 4.0.0),
+         python-oslo.service (>= 1.0.0),
+         python-oslo.utils (>= 3.5.0),
+         python-pbr (>= 1.8),
+         ${misc:Depends},
+         ${python:Depends},
+Suggests: python-neutron-lib-doc,
+Description: Neutron shared routines and utilities - Python 2.7
+ Neutron provides an API to dynamically request and configure virtual networks.
+ These networks connect "interfaces" from other OpenStack services (such as
+ vNICs from Nova VMs). The Neutron API supports extensions to provide advanced
+ network capabilities, including QoS, ACLs, and network monitoring.
+ .
+ This package provides shared routines and utilities for Python 2.7.
+
+Package: python3-neutron-lib
+Architecture: all
+Depends: python3-babel,
+         python3-debtcollector (>= 1.2.0),
+         python3-oslo.config (>= 3.7.0),
+         python3-oslo.db (>= 4.1.0),
+         python3-oslo.i18n (>= 2.1.0),
+         python3-oslo.log (>= 1.14.0),
+         python3-oslo.messaging (>= 4.0.0),
+         python3-oslo.service (>= 1.0.0),
+         python3-oslo.utils (>= 3.5.0),
+         python3-pbr (>= 1.8),
+         ${misc:Depends},
+         ${python3:Depends},
+Suggests: python-neutron-lib-doc,
+Description: Neutron shared routines and utilities - Python 3.x
+ Neutron provides an API to dynamically request and configure virtual networks.
+ These networks connect "interfaces" from other OpenStack services (such as
+ vNICs from Nova VMs). The Neutron API supports extensions to provide advanced
+ network capabilities, including QoS, ACLs, and network monitoring.
+ .
+ This package provides shared routines and utilities for Python 3.x.
+
+Package: python-neutron-lib-doc
+Section: doc
+Architecture: all
+Depends: ${misc:Depends},
+         ${sphinxdoc:Depends},
+Description: Neutron shared routines and utilities - doc
+ Neutron provides an API to dynamically request and configure virtual networks.
+ These networks connect "interfaces" from other OpenStack services (such as
+ vNICs from Nova VMs). The Neutron API supports extensions to provide advanced
+ network capabilities, including QoS, ACLs, and network monitoring.
+ .
+ This package contains the documentation of neutron-lib.
