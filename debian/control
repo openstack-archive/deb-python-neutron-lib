@@ -70,6 +70,10 @@ Description: Neutron shared routines and utilities - Python 2.7
  vNICs from Nova VMs). The Neutron API supports extensions to provide advanced
  network capabilities, including QoS, ACLs, and network monitoring.
  .
+ Neutron-lib is an OpenStack library project used by Neutron, Advanced
+ Services, and third-party projects to provide common functionality and remove
+ duplication.
+ .
  This package provides shared routines and utilities for Python 2.7.
 
 Package: python3-neutron-lib
@@ -93,6 +97,10 @@ Description: Neutron shared routines and utilities - Python 3.x
  vNICs from Nova VMs). The Neutron API supports extensions to provide advanced
  network capabilities, including QoS, ACLs, and network monitoring.
  .
+ Neutron-lib is an OpenStack library project used by Neutron, Advanced
+ Services, and third-party projects to provide common functionality and remove
+ duplication.
+ .
  This package provides shared routines and utilities for Python 3.x.
 
 Package: python-neutron-lib-doc
@@ -106,4 +114,9 @@ Description: Neutron shared routines and utilities - doc
  vNICs from Nova VMs). The Neutron API supports extensions to provide advanced
  network capabilities, including QoS, ACLs, and network monitoring.
  .
+ Neutron-lib is an OpenStack library project used by Neutron, Advanced
+ Services, and third-party projects to provide common functionality and remove
+ duplication.
+ .
  This package contains the documentation of neutron-lib.
+
