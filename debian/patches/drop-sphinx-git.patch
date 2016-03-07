@@ -1,0 +1,22 @@
+Description: Drop git from sphinx config since git repo is not available
+             during package builds.
+Author: Corey Bryant <corey.bryant@canonical.com>
+Forwarded: not-needed
+
+--- a/doc/source/conf.py
++++ b/doc/source/conf.py
+@@ -163,10 +163,10 @@
+ # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
+ # using the given strftime format.
+ #html_last_updated_fmt = '%b %d, %Y'
+-git_cmd = ["git", "log", "--pretty=format:'%ad, commit %h'", "--date=local",
+-    "-n1"]
+-html_last_updated_fmt = subprocess.Popen(
+-    git_cmd, stdout=subprocess.PIPE).communicate()[0]
++#git_cmd = ["git", "log", "--pretty=format:'%ad, commit %h'", "--date=local",
++#    "-n1"]
++#html_last_updated_fmt = subprocess.Popen(
++#    git_cmd, stdout=subprocess.PIPE).communicate()[0]
+ 
+ # If true, SmartyPants will be used to convert quotes and dashes to
+ # typographically correct entities.
