@@ -6,6 +6,7 @@ python-neutron-lib (0.1.0-1) UNRELEASED; urgency=medium
   [ Corey Bryant ]
   * New upstream release.
   * d/gbp.conf: Update branch config for Newton.
+  * d/control: Align (Build-)Depends with upstream.
 
  -- Corey Bryant <corey.bryant@canonical.com>  Thu, 12 May 2016 16:30:12 -0400
 
