@@ -46,6 +46,8 @@ DEVICE_OWNER_NEUTRON_PREFIX = "neutron:"
 
 DEVICE_OWNER_ROUTER_HA_INTF = (DEVICE_OWNER_NETWORK_PREFIX +
                                "router_ha_interface")
+DEVICE_OWNER_HA_REPLICATED_INT = (DEVICE_OWNER_NETWORK_PREFIX +
+                                  "ha_router_replicated_interface")
 DEVICE_OWNER_ROUTER_INTF = DEVICE_OWNER_NETWORK_PREFIX + "router_interface"
 DEVICE_OWNER_ROUTER_GW = DEVICE_OWNER_NETWORK_PREFIX + "router_gateway"
 DEVICE_OWNER_FLOATINGIP = DEVICE_OWNER_NETWORK_PREFIX + "floatingip"
@@ -65,8 +67,10 @@ DEVICE_OWNER_PREFIXES = (DEVICE_OWNER_NETWORK_PREFIX,
 # Collection used to identify devices owned by router interfaces.
 # DEVICE_OWNER_ROUTER_HA_INTF is a special case and so is not included.
 ROUTER_INTERFACE_OWNERS = (DEVICE_OWNER_ROUTER_INTF,
+                           DEVICE_OWNER_HA_REPLICATED_INT,
                            DEVICE_OWNER_DVR_INTERFACE)
 ROUTER_INTERFACE_OWNERS_SNAT = (DEVICE_OWNER_ROUTER_INTF,
+                                DEVICE_OWNER_HA_REPLICATED_INT,
                                 DEVICE_OWNER_DVR_INTERFACE,
                                 DEVICE_OWNER_ROUTER_SNAT)
 FLOATINGIP_KEY = '_floatingips'
@@ -212,3 +216,14 @@ HEX_ELEM = '[0-9A-Fa-f]'
 UUID_PATTERN = '-'.join([HEX_ELEM + '{8}', HEX_ELEM + '{4}',
                          HEX_ELEM + '{4}', HEX_ELEM + '{4}',
                          HEX_ELEM + '{12}'])
+
+
+##########################
+# Device related constants
+##########################
+# vhost-user device names start with "vhu"
+VHOST_USER_DEVICE_PREFIX = 'vhu'
+# The vswitch side of a veth pair for a nova iptables filter setup
+VETH_DEVICE_PREFIX = 'qvo'
+# prefix for SNAT interface in DVR
+SNAT_INT_DEV_PREFIX = 'sg-'
