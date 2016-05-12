@@ -1,8 +1,12 @@
-python-neutron-lib (0.0.2-3) UNRELEASED; urgency=medium
+python-neutron-lib (0.1.0-1) UNRELEASED; urgency=medium
 
+  [ Ondřej Nový ]
   * Standards-Version is 3.9.8 now (no change)
 
- -- Ondřej Nový <novy@ondrej.org>  Sat, 09 Apr 2016 19:28:21 +0200
+  [ Corey Bryant ]
+  * New upstream release.
+
+ -- Corey Bryant <corey.bryant@canonical.com>  Thu, 12 May 2016 16:30:12 -0400
 
 python-neutron-lib (0.0.2-2) unstable; urgency=medium
 
