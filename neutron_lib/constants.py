@@ -90,6 +90,8 @@ IPv4_ANY = '0.0.0.0/0'
 IPv6_ANY = '::/0'
 IP_ANY = {IP_VERSION_4: IPv4_ANY, IP_VERSION_6: IPv6_ANY}
 
+IPv6_LLA_PREFIX = 'fe80::/64'
+
 DHCP_RESPONSE_PORT = 68
 
 FLOODING_ENTRY = ('00:00:00:00:00:00', '0.0.0.0')
@@ -125,6 +127,9 @@ PROTO_NAME_IGMP = 'igmp'
 PROTO_NAME_IPV6_ENCAP = 'ipv6-encap'
 PROTO_NAME_IPV6_FRAG = 'ipv6-frag'
 PROTO_NAME_IPV6_ICMP = 'ipv6-icmp'
+# For backward-compatibility of security group rule API, we keep the old value
+# for IPv6 ICMP. It should be clean up in the future.
+PROTO_NAME_IPV6_ICMP_LEGACY = 'icmpv6'
 PROTO_NAME_IPV6_NONXT = 'ipv6-nonxt'
 PROTO_NAME_IPV6_OPTS = 'ipv6-opts'
 PROTO_NAME_IPV6_ROUTE = 'ipv6-route'
@@ -169,6 +174,8 @@ IP_PROTOCOL_MAP = {PROTO_NAME_AH: PROTO_NUM_AH,
                    PROTO_NAME_IPV6_ENCAP: PROTO_NUM_IPV6_ENCAP,
                    PROTO_NAME_IPV6_FRAG: PROTO_NUM_IPV6_FRAG,
                    PROTO_NAME_IPV6_ICMP: PROTO_NUM_IPV6_ICMP,
+                   # For backward-compatibility of security group rule API
+                   PROTO_NAME_IPV6_ICMP_LEGACY: PROTO_NUM_IPV6_ICMP,
                    PROTO_NAME_IPV6_NONXT: PROTO_NUM_IPV6_NONXT,
                    PROTO_NAME_IPV6_OPTS: PROTO_NUM_IPV6_OPTS,
                    PROTO_NAME_IPV6_ROUTE: PROTO_NUM_IPV6_ROUTE,
@@ -181,15 +188,41 @@ IP_PROTOCOL_MAP = {PROTO_NAME_AH: PROTO_NUM_AH,
                    PROTO_NAME_UDPLITE: PROTO_NUM_UDPLITE,
                    PROTO_NAME_VRRP: PROTO_NUM_VRRP}
 
-# List of ICMPv6 types that should be allowed by default:
-# Multicast Listener Query (130),
-# Multicast Listener Report (131),
-# Multicast Listener Done (132),
-# Neighbor Solicitation (135),
-# Neighbor Advertisement (136)
-ICMPV6_ALLOWED_TYPES = [130, 131, 132, 135, 136]
+# ICMPv6 types:
+# Destination Unreachable (1)
+ICMPV6_TYPE_DEST_UNREACH = 1
+# Packet Too Big (2)
+ICMPV6_TYPE_PKT_TOOBIG = 2
+# Time Exceeded (3)
+ICMPV6_TYPE_TIME_EXCEED = 3
+# Parameter Problem (4)
+ICMPV6_TYPE_PARAMPROB = 4
+# Echo Request (128)
+ICMPV6_TYPE_ECHO_REQUEST = 128
+# Echo Reply (129)
+ICMPV6_TYPE_ECHO_REPLY = 129
+# Multicast Listener Query (130)
+ICMPV6_TYPE_MLD_QUERY = 130
+# Multicast Listener Report (131)
+ICMPV6_TYPE_MLD_REPORT = 131
+# Multicast Listener Done (132)
+ICMPV6_TYPE_MLD_DONE = 132
+# Router Solicitation (133)
+ICMPV6_TYPE_RS = 133
+# Router Advertisement (134)
 ICMPV6_TYPE_RA = 134
+# Neighbor Solicitation (135)
+ICMPV6_TYPE_NS = 135
+# Neighbor Advertisement (136)
 ICMPV6_TYPE_NA = 136
+# Multicast Listener v2 Report (143)
+ICMPV6_TYPE_MLD2_REPORT = 143
+
+# List of ICMPv6 types that should be allowed from the unspecified address for
+# Duplicate Address Detection:
+ICMPV6_ALLOWED_UNSPEC_ADDR_TYPES = [ICMPV6_TYPE_MLD_REPORT,
+                                    ICMPV6_TYPE_NS,
+                                    ICMPV6_TYPE_MLD2_REPORT]
 
 # Human-readable ID to which the subnetpool ID should be set to
 # indicate that IPv6 Prefix Delegation is enabled for a given subnetpool
@@ -207,10 +240,16 @@ DEVICE_NAME_MAX_LEN = 15
 # Time format
 ISO8601_TIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
 
+
 #############################
 # Attribute related constants
 #############################
-ATTR_NOT_SPECIFIED = object()
+class _Sentinel(object):
+    def __deepcopy__(self, memo):
+        # always return the same object because this is essentially a constant
+        return self
+
+ATTR_NOT_SPECIFIED = _Sentinel()
 
 HEX_ELEM = '[0-9A-Fa-f]'
 UUID_PATTERN = '-'.join([HEX_ELEM + '{8}', HEX_ELEM + '{4}',
