@@ -1,9 +1,13 @@
-python-neutron-lib (0.2.0-2) UNRELEASED; urgency=medium
+python-neutron-lib (0.3.0-1) UNRELEASED; urgency=medium
 
+  [ Thomas Goirand ]
   * Fixed missing EPOC in oslo.config (build-)depends.
+
+  [ Corey Bryant ]
+  * New upstream release.
   * d/rules: Use https for UPSTREAM_GIT.
 
- -- Thomas Goirand <zigo@debian.org>  Wed, 20 Jul 2016 13:23:58 +0200
+ -- Corey Bryant <corey.bryant@canonical.com>  Wed, 03 Aug 2016 17:13:14 -0400
 
 python-neutron-lib (0.2.0-1) experimental; urgency=medium
 
