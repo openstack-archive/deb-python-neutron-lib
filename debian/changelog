@@ -6,6 +6,7 @@ python-neutron-lib (0.3.0-1) UNRELEASED; urgency=medium
   [ Corey Bryant ]
   * New upstream release.
   * d/rules: Use https for UPSTREAM_GIT.
+  * d/control: Align (Build-)Depends with upstream.
 
  -- Corey Bryant <corey.bryant@canonical.com>  Wed, 03 Aug 2016 17:13:14 -0400
 
