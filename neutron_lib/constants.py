@@ -108,6 +108,11 @@ AGENT_TYPE_NIC_SWITCH = 'NIC Switch agent'
 AGENT_TYPE_MACVTAP = 'Macvtap agent'
 L2_AGENT_TOPIC = 'N/A'
 
+L3_AGENT_MODE_DVR = 'dvr'
+L3_AGENT_MODE_DVR_SNAT = 'dvr_snat'
+L3_AGENT_MODE_LEGACY = 'legacy'
+L3_AGENT_MODE = 'agent_mode'
+
 PORT_BINDING_EXT_ALIAS = 'binding'
 L3_AGENT_SCHEDULER_EXT_ALIAS = 'l3_agent_scheduler'
 DHCP_AGENT_SCHEDULER_EXT_ALIAS = 'dhcp_agent_scheduler'
@@ -240,16 +245,24 @@ DEVICE_NAME_MAX_LEN = 15
 # Time format
 ISO8601_TIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
 
+DHCPV6_STATEFUL = 'dhcpv6-stateful'
+DHCPV6_STATELESS = 'dhcpv6-stateless'
+IPV6_SLAAC = 'slaac'
+IPV6_MODES = [DHCPV6_STATEFUL, DHCPV6_STATELESS, IPV6_SLAAC]
+
+
+class Sentinel(object):
+    """A constant object that does not change even when copied."""
+    def __deepcopy__(self, memo):
+        # Always return the same object because this is essentially a constant.
+        return self
+
 
 #############################
 # Attribute related constants
 #############################
-class _Sentinel(object):
-    def __deepcopy__(self, memo):
-        # always return the same object because this is essentially a constant
-        return self
 
-ATTR_NOT_SPECIFIED = _Sentinel()
+ATTR_NOT_SPECIFIED = Sentinel()
 
 HEX_ELEM = '[0-9A-Fa-f]'
 UUID_PATTERN = '-'.join([HEX_ELEM + '{8}', HEX_ELEM + '{4}',

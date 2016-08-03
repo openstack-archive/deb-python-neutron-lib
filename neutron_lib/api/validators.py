@@ -10,9 +10,12 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
+import collections
+import debtcollector
 import re
 
 import functools
+import inspect
 import netaddr
 from oslo_log import log as logging
 from oslo_utils import uuidutils
@@ -134,6 +137,40 @@ def validate_boolean(data, valid_values=None):
         converters.convert_to_boolean(data)
     except n_exc.InvalidInput:
         msg = _("'%s' is not a valid boolean value") % data
+        LOG.debug(msg)
+        return msg
+
+
+def validate_integer(data, valid_values=None):
+    """This function validates if the data is an integer.
+
+    It checks both number or string provided to validate it's an
+    integer and returns a message with the error if it's not
+
+    :param data: The string or number to validate as integer
+    :param valid_values: values to limit the 'data' to
+    :return: Message if not an integer.
+    """
+
+    if valid_values is not None:
+        msg = validate_values(data=data, valid_values=valid_values)
+        if msg:
+            return msg
+
+    msg = _("'%s' is not an integer") % data
+    try:
+        fl_n = float(data)
+        int_n = int(data)
+    except (ValueError, TypeError, OverflowError):
+        LOG.debug(msg)
+        return msg
+
+    # Fail test if non equal or boolean
+    if fl_n != int_n:
+        LOG.debug(msg)
+        return msg
+    elif isinstance(data, bool):
+        msg = _("'%s' is not an integer:boolean") % data
         LOG.debug(msg)
         return msg
 
@@ -450,6 +487,13 @@ def validate_dict(data, key_specs=None):
         if msg:
             return msg
 
+    # Check whether unexpected keys are supplied in data
+    unexpected_keys = [key for key in data if key not in key_specs]
+    if unexpected_keys:
+        msg = _("Unexpected keys supplied: %s") % ', '.join(unexpected_keys)
+        LOG.debug(msg)
+        return msg
+
     # Perform validation and conversion of all values
     # according to the specifications.
     for key, key_validator in [(k, v) for k, v in six.iteritems(key_specs)
@@ -488,6 +532,55 @@ def validate_non_negative(data, valid_values=None):
         return msg
 
 
+def validate_subports(data, valid_values=None):
+    if not isinstance(data, list):
+        msg = _("Invalid data format for subports: '%s' is not a list") % data
+        LOG.debug(msg)
+        return msg
+
+    subport_ids = set()
+    segmentations = collections.defaultdict(set)
+    for subport in data:
+        if not isinstance(subport, dict):
+            msg = _("Invalid data format for subport: "
+                    "'%s' is not a dict") % subport
+            LOG.debug(msg)
+            return msg
+
+        # Expect a non duplicated and valid port_id for the subport
+        if 'port_id' not in subport:
+            msg = _("A valid port UUID must be specified")
+            LOG.debug(msg)
+            return msg
+        elif validate_uuid(subport["port_id"]):
+            msg = _("Invalid UUID for subport: '%s'") % subport["port_id"]
+            return msg
+        elif subport["port_id"] in subport_ids:
+            msg = _("Non unique UUID for subport: '%s'") % subport["port_id"]
+            return msg
+        subport_ids.add(subport["port_id"])
+
+        # Validate that both segmentation id and segmentation type are
+        # specified, and that the client does not duplicate segmentation
+        # ids
+        segmentation_id = subport.get("segmentation_id")
+        segmentation_type = subport.get("segmentation_type")
+        if (not segmentation_id or not segmentation_type) and len(subport) > 1:
+            msg = _("Invalid subport details '%s': missing segmentation "
+                    "information. Must specify both segmentation_id and "
+                    "segmentation_type") % subport
+            LOG.debug(msg)
+            return msg
+        if segmentation_id in segmentations.get(segmentation_type, []):
+            msg = _("Segmentation ID '%(seg_id)s' for '%(subport)s' is not "
+                    "unique") % {"seg_id": segmentation_id,
+                                 "subport": subport["port_id"]}
+            LOG.debug(msg)
+            return msg
+        if segmentation_id:
+            segmentations[segmentation_type].add(segmentation_id)
+
+
 # Dictionary that maintains a list of validation functions
 validators = {'type:dict': validate_dict,
               'type:dict_or_none': validate_dict_or_none,
@@ -515,12 +608,39 @@ validators = {'type:dict': validate_dict,
               'type:subnet_or_none': validate_subnet_or_none,
               'type:subnetpool_id': validate_subnetpool_id,
               'type:subnetpool_id_or_none': validate_subnetpool_id_or_none,
+              'type:subports': validate_subports,
               'type:uuid': validate_uuid,
               'type:uuid_or_none': validate_uuid_or_none,
               'type:uuid_list': validate_uuid_list,
               'type:values': validate_values,
               'type:boolean': validate_boolean,
+              'type:integer': validate_integer,
               'type:list_of_unique_strings': validate_list_of_unique_strings}
+
+
+# TODO(boden): update removal_version once naming determined
+debtcollector.deprecate('validators',
+                        message='accessors replacing direct variable',
+                        version='newton',
+                        removal_version='P release',
+                        stacklevel=4)
+
+
+def _to_validation_type(validation_type):
+    return (validation_type
+            if validation_type.startswith('type:')
+            else 'type:' + validation_type)
+
+
+def get_validator(validation_type, default=None):
+    """Get a registered validator by type.
+
+    :param validation_type: The type to retrieve the validator for.
+    :param default: A default value to return if the validator is
+    not registered.
+    :return: The validator if registered, otherwise the default value.
+    """
+    return validators.get(_to_validation_type(validation_type), default)
 
 
 def add_validator(validation_type, validator):
@@ -530,7 +650,12 @@ def add_validator(validation_type, validator):
     than directly modifying the data structure. The clients can NOT modify
     existing validators.
     """
-    key = 'type:' + validation_type
+    key = _to_validation_type(validation_type)
     if key in validators:
-        raise KeyError("Validator type %s is already defined", validation_type)
+        # NOTE(boden): imp.load_source() forces module reinitialization that
+        # can lead to validator redefinition from the same call site
+        if inspect.getsource(validator) != inspect.getsource(validators[key]):
+            msg = _("Validator type %s is already defined") % validation_type
+            raise KeyError(msg)
+        return
     validators[key] = validator

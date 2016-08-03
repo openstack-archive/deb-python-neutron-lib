@@ -13,17 +13,23 @@
 import testtools
 
 from neutron_lib.hacking import checks
+from neutron_lib.hacking import translation_checks as tc
 from neutron_lib.tests import _base as base
 
 
 class HackingTestCase(base.BaseTestCase):
 
-    def assertLinePasses(self, func, line):
+    def assertLinePasses(self, func, *args):
         with testtools.ExpectedException(StopIteration):
-            next(func(line))
+            next(func(*args))
 
-    def assertLineFails(self, func, line):
-        self.assertIsInstance(next(func(line)), tuple)
+    def assertLineFails(self, func, *args):
+        self.assertIsInstance(next(func(*args)), tuple)
+
+    def test_factory(self):
+        def check_callable(fn):
+            self.assertTrue(hasattr(fn, '__call__'))
+        self.assertIsNone(checks.factory(check_callable))
 
     def test_use_jsonutils(self):
         def __get_msg(fun):
@@ -37,15 +43,18 @@ class HackingTestCase(base.BaseTestCase):
                 list(checks.use_jsonutils("json.%s(" % method,
                                           "./neutron/common/rpc.py")))
 
-            self.assertEqual(0,
+            self.assertEqual(
+                0,
                 len(list(checks.use_jsonutils("jsonx.%s(" % method,
                                               "./neutron/common/rpc.py"))))
 
-            self.assertEqual(0,
+            self.assertEqual(
+                0,
                 len(list(checks.use_jsonutils("json.%sx(" % method,
                                               "./neutron/common/rpc.py"))))
 
-            self.assertEqual(0,
+            self.assertEqual(
+                0,
                 len(list(checks.use_jsonutils(
                     "json.%s" % method,
                     "./neutron/plugins/ml2/drivers/openvswitch/agent/xenapi/"
@@ -59,6 +68,13 @@ class HackingTestCase(base.BaseTestCase):
         self.assertLineFails(f, 'from oslo import messaging')
         self.assertLineFails(f, 'import oslo.messaging')
 
+    def test_check_contextlib_nested(self):
+        f = checks.check_no_contextlib_nested
+        self.assertLineFails(f, 'with contextlib.nested():', '')
+        self.assertLineFails(f, '    with contextlib.nested():', '')
+        self.assertLinePasses(f, '# with contextlib.nested():', '')
+        self.assertLinePasses(f, 'print("with contextlib.nested():")', '')
+
     def test_check_python3_xrange(self):
         f = checks.check_python3_xrange
         self.assertLineFails(f, 'a = xrange(1000)')
@@ -68,8 +84,9 @@ class HackingTestCase(base.BaseTestCase):
         self.assertLinePasses(f, 'e = six.moves.range(1337)')
 
     def test_no_basestring(self):
-        self.assertEqual(1,
-            len(list(checks.check_no_basestring("isinstance(x, basestring)"))))
+        f = checks.check_no_basestring
+        self.assertLineFails(f, 'isinstance(x, basestring)')
+        self.assertLinePasses(f, 'isinstance(x, BaseString)')
 
     def test_check_python3_iteritems(self):
         f = checks.check_python3_no_iteritems
@@ -96,3 +113,69 @@ class HackingTestCase(base.BaseTestCase):
         self.assertLineFails(f, 'from neutron.common import rpc')
         self.assertLineFails(f, 'from neutron import context')
         self.assertLineFails(f, 'import neutron.common.config')
+
+    def test_log_translations(self):
+        expected_marks = {
+            'error': '_LE',
+            'info': '_LI',
+            'warning': '_LW',
+            'critical': '_LC',
+            'exception': '_LE',
+        }
+        logs = expected_marks.keys()
+        debug = "LOG.debug('OK')"
+        self.assertEqual(
+            0, len(list(tc.validate_log_translations(debug, debug, 'f'))))
+        for log in logs:
+            bad = 'LOG.%s(_("Bad"))' % log
+            self.assertEqual(
+                1, len(list(tc.validate_log_translations(bad, bad, 'f'))))
+            bad = 'LOG.%s("Bad")' % log
+            self.assertEqual(
+                1, len(list(tc.validate_log_translations(bad, bad, 'f'))))
+            ok = "LOG.%s('OK')    # noqa" % log
+            self.assertEqual(
+                0, len(list(tc.validate_log_translations(ok, ok, 'f'))))
+            ok = "LOG.%s(variable)" % log
+            self.assertEqual(
+                0, len(list(tc.validate_log_translations(ok, ok, 'f'))))
+            # Do not do validations in tests
+            ok = 'LOG.%s("OK - unit tests")' % log
+            self.assertEqual(
+                0, len(list(tc.validate_log_translations(ok, ok,
+                                                         'f/tests/f'))))
+
+            for mark in tc._all_hints:
+                stmt = "LOG.%s(%s('test'))" % (log, mark)
+                self.assertEqual(
+                    0 if expected_marks[log] == mark else 1,
+                    len(list(tc.validate_log_translations(stmt, stmt, 'f'))))
+
+    def test_no_translate_debug_logs(self):
+        for hint in tc._all_hints:
+            bad = "LOG.debug(%s('bad'))" % hint
+            self.assertEqual(
+                1, len(list(tc.no_translate_debug_logs(bad, 'f'))))
+
+    def test_check_log_warn_deprecated(self):
+        bad = "LOG.warn(_LW('i am deprecated!'))"
+        good = "LOG.warning(_LW('zlatan is the best'))"
+        f = tc.check_log_warn_deprecated
+        self.assertLineFails(f, bad, '')
+        self.assertLinePasses(f, good, '')
+
+    def test_check_localized_exception_messages(self):
+        f = tc.check_raised_localized_exceptions
+        self.assertLineFails(f, "     raise KeyError('Error text')", '')
+        self.assertLineFails(f, ' raise KeyError("Error text")', '')
+        self.assertLinePasses(f, ' raise KeyError(_("Error text"))', '')
+        self.assertLinePasses(f, ' raise KeyError(_ERR("Error text"))', '')
+        self.assertLinePasses(f, " raise KeyError(translated_msg)", '')
+        self.assertLinePasses(f, '# raise KeyError("Not translated")', '')
+        self.assertLinePasses(f, 'print("raise KeyError("Not '
+                                 'translated")")', '')
+
+    def test_check_localized_exception_message_skip_tests(self):
+        f = tc.check_raised_localized_exceptions
+        self.assertLinePasses(f, "raise KeyError('Error text')",
+                              'neutron_lib/tests/unit/mytest.py')

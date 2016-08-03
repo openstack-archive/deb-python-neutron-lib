@@ -50,16 +50,38 @@ class TestAttributeValidation(base.BaseTestCase):
 
         return dictionary, constraints
 
+    def test_type_prefixing(self):
+        validators.add_validator('type:prefixed_type', dummy_validator)
+        validators.add_validator('unprefixed_type', dummy_validator)
+        self.assertEqual(dummy_validator,
+                         validators.get_validator('type:prefixed_type'))
+        self.assertEqual(dummy_validator,
+                         validators.get_validator('prefixed_type'))
+        self.assertEqual(dummy_validator,
+                         validators.get_validator('type:unprefixed_type'))
+        self.assertEqual(dummy_validator,
+                         validators.get_validator('unprefixed_type'))
+
     def test_adding_validator(self):
         validators.add_validator('new_type', dummy_validator)
         self.assertIn('type:new_type', validators.validators)
         self.assertEqual(dummy_validator,
                          validators.validators['type:new_type'])
 
+    def test_get_validator_default(self):
+        self.assertEqual(dummy_validator,
+                         validators.get_validator('nope',
+                                                  default=dummy_validator))
+
     def test_fail_adding_duplicate_validator(self):
         self.assertRaises(KeyError,
                           validators.add_validator,
-                          'dict', dummy_validator)
+                          'dict', lambda x: x)
+
+    def test_success_adding_duplicate_validator(self):
+        validators.add_validator('dummy', dummy_validator)
+        validators.add_validator('dummy', dummy_validator)
+        self.assertEqual(dummy_validator, validators.get_validator('dummy'))
 
     def test_is_attr_set(self):
         data = constants.ATTR_NOT_SPECIFIED
@@ -158,6 +180,30 @@ class TestAttributeValidation(base.BaseTestCase):
         self.assertIsNone(msg)
         msg = validators.validate_boolean("fasle")
         self.assertEqual("'fasle' is not a valid boolean value", msg)
+
+    def test_validate_integer(self):
+        msg = validators.validate_integer(1)
+        self.assertIsNone(msg)
+        msg = validators.validate_integer(0.1)
+        self.assertEqual("'0.1' is not an integer", msg)
+        msg = validators.validate_integer("1")
+        self.assertIsNone(msg)
+        msg = validators.validate_integer("0.1")
+        self.assertEqual("'0.1' is not an integer", msg)
+        msg = validators.validate_integer(True)
+        self.assertEqual("'True' is not an integer:boolean", msg)
+        msg = validators.validate_integer(False)
+        self.assertEqual("'False' is not an integer:boolean", msg)
+        msg = validators.validate_integer(float('Inf'))
+        self.assertEqual("'inf' is not an integer", msg)
+        msg = validators.validate_integer(None)
+        self.assertEqual("'None' is not an integer", msg)
+
+    def test_validate_integer_values(self):
+        msg = validators.validate_integer(2, [2, 3, 4, 5])
+        self.assertIsNone(msg)
+        msg = validators.validate_integer(1, [2, 3, 4, 5])
+        self.assertEqual("'1' is not in [2, 3, 4, 5]", msg)
 
     def test_validate_no_whitespace(self):
         data = 'no_white_space'
@@ -770,6 +816,13 @@ class TestAttributeValidation(base.BaseTestCase):
         msg = validators.validate_dict(dictionary, constraints)
         self.assertIsNotNone(msg)
 
+    def test_validate_dict_unexpected_keys(self):
+        dictionary, constraints = self._construct_dict_and_constraints()
+
+        dictionary['unexpected_key'] = 'val'
+        msg = validators.validate_dict(dictionary, constraints)
+        self.assertIn('Unexpected keys supplied:', msg)
+
     def test_validate_dict_convert_boolean(self):
         dictionary, constraints = self._construct_dict_and_constraints()
 
@@ -838,3 +891,75 @@ class TestAttributeValidation(base.BaseTestCase):
         for value in (0, 1, '2', True, False):
             msg = validators.validate_non_negative(value)
             self.assertIsNone(msg)
+
+    def test_validate_subports_invalid_body(self):
+        self.assertIsNotNone(validators.validate_subports(None))
+
+    def test_validate_subports_invalid_subport_object(self):
+        self.assertIsNotNone(validators.validate_subports(['foo_port']))
+
+    def test_validate_subports_invalid_port_uuid(self):
+        body = [{'port_id': 'foo_port'}]
+        self.assertIsNotNone(validators.validate_subports(body))
+
+    def test_validate_subports_invalid_missing_port_id(self):
+        body = [{'poort_id': 'foo_port'}]
+        self.assertIsNotNone(validators.validate_subports(body))
+
+    def test_validate_subports_invalid_duplicate_port_ids(self):
+        body = [
+            {'port_id': '00000000-ffff-ffff-ffff-000000000000'},
+            {'port_id': '00000000-ffff-ffff-ffff-000000000000'}
+        ]
+        self.assertIsNotNone(validators.validate_subports(body))
+
+    def test_validate_subports_invalid_incomplete_segmentation_details(self):
+        body = [
+            {'port_id': '00000000-ffff-ffff-ffff-000000000000',
+             'segmentation_id': '3'}
+        ]
+        self.assertIsNotNone(validators.validate_subports(body))
+
+    def test_validate_subports_invalid_unknown_paramenter(self):
+        body = [
+            {'port_id': '00000000-ffff-ffff-ffff-000000000000',
+             'segmentation_id': '3', 'segmeNAtion_type': 'vlan'}
+        ]
+        self.assertIsNotNone(validators.validate_subports(body))
+
+    def test_validate_subports_invalid_duplicate_segmentation_id(self):
+        body = [
+            {'port_id': '00000000-ffff-ffff-ffff-000000000000',
+             'segmentation_id': '3', 'segmentation_type': 'vlan'},
+            {'port_id': '11111111-ffff-ffff-ffff-000000000000',
+             'segmentation_id': '3', 'segmentation_type': 'vlan'}
+        ]
+        self.assertIsNotNone(validators.validate_subports(body))
+
+    def test_validate_subports_valid_unique_segmentation_id(self):
+        body = [
+            {'port_id': '00000000-ffff-ffff-ffff-000000000000',
+             'segmentation_id': '3', 'segmentation_type': 'vlan'},
+            {'port_id': '11111111-ffff-ffff-ffff-000000000000',
+             'segmentation_id': '3', 'segmentation_type': 'vxlan'}
+        ]
+        self.assertIsNone(validators.validate_subports(body))
+
+    def test_validate_subports_valid_empty_body(self):
+        self.assertIsNone(validators.validate_subports([]))
+
+    def test_validate_subports_valid_suports_with_segmentation_details(self):
+        body = [
+            {'port_id': '00000000-ffff-ffff-ffff-000000000000',
+             'segmentation_id': '3', 'segmentation_type': 'vlan'},
+            {'port_id': '11111111-ffff-ffff-ffff-000000000000',
+             'segmentation_id': '5', 'segmentation_type': 'vlan'}
+        ]
+        self.assertIsNone(validators.validate_subports(body))
+
+    def test_validate_subports_valid_subports(self):
+        body = [
+            {'port_id': '00000000-ffff-ffff-ffff-000000000000'},
+            {'port_id': '11111111-ffff-ffff-ffff-000000000000'},
+        ]
+        self.assertIsNone(validators.validate_subports(body))

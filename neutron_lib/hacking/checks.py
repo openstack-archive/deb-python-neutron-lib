@@ -14,6 +14,10 @@
 
 import re
 
+from debtcollector import removals
+
+from neutron_lib.hacking import translation_checks
+
 # Guidelines for writing new hacking checks
 #
 #  - Use only for Neutron specific tests. OpenStack general tests
@@ -31,7 +35,7 @@ mutable_default_args = re.compile(r"^\s*def .+\((.+=\{\}|.+=\[\])")
 namespace_imports_dot = re.compile(r"import[\s]+([\w]+)[.][^\s]+")
 namespace_imports_from_dot = re.compile(r"from[\s]+([\w]+)[.]")
 namespace_imports_from_root = re.compile(r"from[\s]+([\w]+)[\s]+import[\s]+")
-contextlib_nested = re.compile(r"^with (contextlib\.)?nested\(")
+contextlib_nested = re.compile(r"^\s*with (contextlib\.)?nested\(")
 
 
 def use_jsonutils(logical_line, filename):
@@ -90,6 +94,7 @@ def _check_namespace_imports(failure_code, namespace, new_ns, logical_line,
         return (0, msg_o or msg)
 
 
+@removals.remove(removal_version='P release')
 def check_oslo_namespace_imports(logical_line):
     x = _check_namespace_imports('N523', 'oslo', 'oslo_', logical_line)
     if x is not None:
@@ -121,7 +126,11 @@ def check_no_basestring(logical_line):
 
 def check_python3_no_iteritems(logical_line):
     if re.search(r".*\.iteritems\(\)", logical_line):
-        msg = ("N527: Use six.iteritems() instead of dict.iteritems().")
+        msg = ("N527: Use dict.items() instead of dict.iteritems() to be "
+               "compatible with both Python 2 and Python 3. In Python 2, "
+               "dict.items() may be inefficient for very large dictionaries. "
+               "If you can prove that you need the optimization of an "
+               "iterator for Python 2, then you can use six.iteritems(dict).")
         yield(0, msg)
 
 
@@ -144,10 +153,13 @@ def check_neutron_namespace_imports(logical_line):
 
 def factory(register):
     register(use_jsonutils)
-    register(check_oslo_namespace_imports)
     register(check_no_contextlib_nested)
     register(check_python3_xrange)
     register(check_no_basestring)
     register(check_python3_no_iteritems)
     register(no_mutable_default_args)
     register(check_neutron_namespace_imports)
+    register(translation_checks.validate_log_translations)
+    register(translation_checks.no_translate_debug_logs)
+    register(translation_checks.check_log_warn_deprecated)
+    register(translation_checks.check_raised_localized_exceptions)
