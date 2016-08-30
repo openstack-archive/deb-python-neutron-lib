@@ -25,7 +25,8 @@ are returned by using the fields query parameter. You can filter
 results by using query string parameters.
 
 Normal response codes: 200
-Error response codes:401,
+
+Error response codes: 401
 
 Request
 -------
@@ -33,7 +34,7 @@ Request
 Response Example
 ----------------
 
-.. literalinclude:: ../samples/subnets/subnets-list-response.json
+.. literalinclude:: samples/subnets/subnets-list-response.json
    :language: javascript
 
 Create subnet
@@ -71,7 +72,7 @@ to create subnets that support IPv6 configurations, such as
 stateless address autoconfiguration (SLAAC), DHCPv6 stateful, and
 DHCPv6 stateless configurations.
 
-Error response codes:201,404,403,401,400,409,
+Error response codes: 201,404,403,401,400,409
 
 Request
 -------
@@ -81,7 +82,7 @@ Request
 Request Example
 ---------------
 
-.. literalinclude:: ../samples/subnets/subnet-create-request.json
+.. literalinclude:: samples/subnets/subnet-create-request.json
    :language: javascript
 
 Bulk create subnet
@@ -94,7 +95,7 @@ Creates multiple subnets in a single request. Specify a list of subnets in the r
 The bulk create operation is always atomic. Either all or no
 subnets in the request body are created.
 
-Error response codes:201,404,403,401,400,409,
+Error response codes: 201,404,403,401,400,409
 
 Request
 -------
@@ -104,7 +105,7 @@ Request
 Request Example
 ---------------
 
-.. literalinclude:: ../samples/subnets/subnets-create-bulk-request.json
+.. literalinclude:: samples/subnets/subnets-create-bulk-request.json
    :language: javascript
 
 Show subnet details
@@ -117,7 +118,8 @@ Shows details for a subnet.
 Use the fields query parameter to filter the results.
 
 Normal response codes: 200
-Error response codes:404,401,
+
+Error response codes: 404,401
 
 Request
 -------
@@ -129,7 +131,7 @@ Request
 Response Example
 ----------------
 
-.. literalinclude:: ../samples/subnets/subnet-show-response.json
+.. literalinclude:: samples/subnets/subnet-show-response.json
    :language: javascript
 
 Update subnet
@@ -144,7 +146,8 @@ cannot be updated. Attempting to update these attributes results in
 a ``400 Bad Request`` error.
 
 Normal response codes: 200
-Error response codes:404,403,401,400,
+
+Error response codes: 404,403,401,400
 
 Request
 -------
@@ -156,13 +159,13 @@ Request
 Request Example
 ---------------
 
-.. literalinclude:: ../samples/subnets/subnet-update-request.json
+.. literalinclude:: samples/subnets/subnet-update-request.json
    :language: javascript
 
 Response Example
 ----------------
 
-.. literalinclude:: ../samples/subnets/subnet-update-response.json
+.. literalinclude:: samples/subnets/subnet-update-response.json
    :language: javascript
 
 Delete subnet
@@ -174,7 +177,7 @@ Deletes a subnet.
 
 The operation fails if subnet IP addresses are still allocated.
 
-Error response codes:409,404,204,401,
+Error response codes: 409,404,204,401
 
 Request
 -------

@@ -41,11 +41,26 @@ def _regex_for_level(level, hint):
 _log_translation_hint = re.compile(
     '|'.join('(?:%s)' % _regex_for_level(level, hint)
              for level, hint in _all_log_levels.items()))
+_log_string_interpolation = re.compile(
+    r".*LOG\.(error|warning|info|critical|exception|debug)\([^,]*%[^,]*[,)]")
+
+
+def _translation_is_not_expected(filename):
+    # Do not do these validations on tests
+    return any(pat in filename for pat in ["/tests/", "rally-jobs/plugins/"])
 
 
 def validate_log_translations(logical_line, physical_line, filename):
-    # Do not do these validations on tests
-    if "/tests/" in filename:
+    """N531 - Log messages require translation hints.
+
+    :param logical_line: The logical line to check.
+    :param physical_line: The physical line to check.
+    :param filename: The file name where the logical line exists.
+    :returns: None if the logical line passes the check, otherwise a tuple
+    is yielded that contains the offending index in logical line and a
+    message describe the check validation failure.
+    """
+    if _translation_is_not_expected(filename):
         return
 
     if pep8.noqa(physical_line):
@@ -57,20 +72,35 @@ def validate_log_translations(logical_line, physical_line, filename):
 
 
 def check_log_warn_deprecated(logical_line, filename):
+    """N532 - Use LOG.warning due to compatibility with py3.
+
+    :param logical_line: The logical line to check.
+    :param filename: The file name where the logical line exists.
+    :returns: None if the logical line passes the check, otherwise a tuple
+    is yielded that contains the offending index in logical line and a
+    message describe the check validation failure.
+    """
     msg = "N532: Use LOG.warning due to compatibility with py3"
     if _log_warn.match(logical_line):
         yield (0, msg)
 
 
 def no_translate_debug_logs(logical_line, filename):
-    """Check for 'LOG.debug(_(' and 'LOG.debug(_Lx('
+    """N533 - Don't translate debug level logs.
+
+    Check for 'LOG.debug(_(' and 'LOG.debug(_Lx('
 
     As per our translation policy,
     https://wiki.openstack.org/wiki/LoggingStandards#Log_Translation
     we shouldn't translate debug level logs.
 
     * This check assumes that 'LOG' is a logger.
-    N533
+
+    :param logical_line: The logical line to check.
+    :param filename: The file name where the logical line exists.
+    :returns: None if the logical line passes the check, otherwise a tuple
+    is yielded that contains the offending index in logical line and a
+    message describe the check validation failure.
     """
     for hint in _all_hints:
         if logical_line.startswith("LOG.debug(%s(" % hint):
@@ -78,8 +108,15 @@ def no_translate_debug_logs(logical_line, filename):
 
 
 def check_raised_localized_exceptions(logical_line, filename):
-    # NOTE(boden): tox.ini doesn't permit per check exclusion
-    if "/tests/" in filename:
+    """N534 - Untranslated exception message.
+
+    :param logical_line: The logical line to check.
+    :param filename: The file name where the logical line exists.
+    :returns: None if the logical line passes the check, otherwise a tuple
+    is yielded that contains the offending index in logical line and a
+    message describe the check validation failure.
+    """
+    if _translation_is_not_expected(filename):
         return
 
     logical_line = logical_line.strip()
@@ -90,3 +127,31 @@ def check_raised_localized_exceptions(logical_line, filename):
         if exception_msg.startswith("\"") or exception_msg.startswith("\'"):
             msg = "N534: Untranslated exception message."
             yield (logical_line.index(exception_msg), msg)
+
+
+def check_delayed_string_interpolation(logical_line, filename, noqa):
+    """N536 - String interpolation should be delayed at logging calls.
+
+    N536: LOG.debug('Example: %s' % 'bad')
+    Okay: LOG.debug('Example: %s', 'good')
+
+    :param logical_line: The logical line to check.
+    :param filename: The file name where the logical line exists.
+    :param noqa: Noqa indicator.
+    :returns: None if the logical line passes the check, otherwise a tuple
+    is yielded that contains the offending index in logical line and a
+    message describe the check validation failure.
+    """
+    msg = ("N536 String interpolation should be delayed to be "
+           "handled by the logging code, rather than being done "
+           "at the point of the logging call. "
+           "Use ',' instead of '%'.")
+
+    if noqa:
+        return
+
+    if '/tests/' in filename:
+        return
+
+    if _log_string_interpolation.match(logical_line):
+        yield(logical_line.index('%'), msg)

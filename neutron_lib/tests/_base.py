@@ -23,11 +23,13 @@ import mock
 from oslo_config import cfg
 from oslo_db import options as db_options
 from oslo_utils import strutils
+import pbr.version
 import six
 import testtools
 
 from neutron_lib._i18n import _
 from neutron_lib import constants
+
 from neutron_lib.tests import _post_mortem_debug as post_mortem_debug
 from neutron_lib.tests import _tools as tools
 
@@ -99,6 +101,19 @@ class AttributeDict(dict):
 
 class BaseTestCase(testtools.TestCase):
 
+    @staticmethod
+    def config_parse(conf=None, args=None):
+        """Create the default configurations."""
+        if args is None:
+            args = []
+        args += ['--config-file', etcdir('neutron_lib.conf')]
+        if conf is None:
+            version_info = pbr.version.VersionInfo('neutron-lib')
+            cfg.CONF(args=args, project='neutron_lib',
+                     version='%%(prog)s %s' % version_info.release_string())
+        else:
+            conf(args)
+
     def setUp(self):
         super(BaseTestCase, self).setUp()
 
@@ -107,8 +122,14 @@ class BaseTestCase(testtools.TestCase):
         db_options.set_defaults(
             cfg.CONF,
             connection='sqlite://',
-            sqlite_db='', max_pool_size=10,
+            max_pool_size=10,
             max_overflow=20, pool_timeout=10)
+
+        self.useFixture(fixtures.MonkeyPatch(
+            'oslo_config.cfg.find_config_files',
+            lambda project=None, prog=None, extension=None: []))
+
+        self.setup_config()
 
         # Configure this first to ensure pm debugging support for setUp()
         debugger = os.environ.get('OS_POST_MORTEM_DEBUGGER')
@@ -155,6 +176,24 @@ class BaseTestCase(testtools.TestCase):
         self.addOnException(self.check_for_systemexit)
         self.orig_pid = os.getpid()
 
+    def get_new_temp_dir(self):
+        """Create a new temporary directory.
+
+        :returns fixtures.TempDir
+        """
+        return self.useFixture(fixtures.TempDir())
+
+    def get_default_temp_dir(self):
+        """Create a default temporary directory.
+
+        Returns the same directory during the whole test case.
+
+        :returns fixtures.TempDir
+        """
+        if not hasattr(self, '_temp_dir'):
+            self._temp_dir = self.get_new_temp_dir()
+        return self._temp_dir
+
     def check_for_systemexit(self, exc_info):
         if isinstance(exc_info[1], SystemExit):
             if os.getpid() != self.orig_pid:
@@ -195,3 +234,7 @@ class BaseTestCase(testtools.TestCase):
             self.assertEqual(v, actual_superset[k],
                              "Key %(key)s expected: %(exp)r, actual %(act)r" %
                              {'key': k, 'exp': v, 'act': actual_superset[k]})
+
+    def setup_config(self, args=None):
+        """Tests that need a non-default config can override this method."""
+        self.config_parse(args=args)

@@ -29,7 +29,8 @@ information, see `Networks multiple provider extension (networks)
 networking-v2-ext.html#showProviderNetwork>`_.
 
 Normal response codes: 200
-Error response codes:404,401,
+
+Error response codes: 404,401
 
 Request
 -------
@@ -62,7 +63,7 @@ Response Parameters
 Response Example
 ----------------
 
-.. literalinclude:: ../samples/networks/network-show-response.json
+.. literalinclude:: samples/networks/network-show-response.json
    :language: javascript
 
 Update network
@@ -73,7 +74,8 @@ Update network
 Updates a network.
 
 Normal response codes: 200
-Error response codes:404,403,401,400,
+
+Error response codes: 404,403,401,400
 
 Request
 -------
@@ -91,7 +93,7 @@ Request
 Request Example
 ---------------
 
-.. literalinclude:: ../samples/networks/network-update-request.json
+.. literalinclude:: samples/networks/network-update-request.json
    :language: javascript
 
 Response Parameters
@@ -116,7 +118,7 @@ Response Parameters
 Response Example
 ----------------
 
-.. literalinclude:: ../samples/networks/network-update-response.json
+.. literalinclude:: samples/networks/network-update-response.json
    :language: javascript
 
 Delete network
@@ -126,7 +128,7 @@ Delete network
 
 Deletes a network and its associated resources.
 
-Error response codes:409,404,204,401,
+Error response codes: 409,404,204,401
 
 Request
 -------
@@ -154,7 +156,8 @@ specs/specs/mitaka/add-tags-to-core-resources.html#rest-api-
 impact>`__.
 
 Normal response codes: 200
-Error response codes:401,
+
+Error response codes: 401
 
 Request
 -------
@@ -181,7 +184,7 @@ Response Parameters
 Response Example
 ----------------
 
-.. literalinclude:: ../samples/networks/networks-list-response.json
+.. literalinclude:: samples/networks/networks-list-response.json
    :language: javascript
 
 Create network
@@ -195,7 +198,7 @@ A request body is optional. An administrative user can specify
 another tenant UUID, which is the tenant who owns the network, in
 the request body.
 
-Error response codes:201,401,400,
+Error response codes: 201,401,400
 
 Request
 -------
@@ -203,7 +206,7 @@ Request
 Request Example
 ---------------
 
-.. literalinclude:: ../samples/networks/network-create-request.json
+.. literalinclude:: samples/networks/network-create-request.json
    :language: javascript
 
 Response Parameters
@@ -237,7 +240,7 @@ In the request body, specify a list of networks.
 The bulk create operation is always atomic. Either all or no
 networks in the request body are created.
 
-Error response codes:201,401,400,
+Error response codes: 201,401,400
 
 Request
 -------
@@ -255,7 +258,7 @@ Request
 Request Example
 ---------------
 
-.. literalinclude:: ../samples/networks/networks-bulk-create-request.json
+.. literalinclude:: samples/networks/networks-bulk-create-request.json
    :language: javascript
 
 Response Parameters

@@ -43,6 +43,7 @@ ERROR = "ERROR"
 DEVICE_OWNER_COMPUTE_PREFIX = "compute:"
 DEVICE_OWNER_NETWORK_PREFIX = "network:"
 DEVICE_OWNER_NEUTRON_PREFIX = "neutron:"
+DEVICE_OWNER_BAREMETAL_PREFIX = "baremetal:"
 
 DEVICE_OWNER_ROUTER_HA_INTF = (DEVICE_OWNER_NETWORK_PREFIX +
                                "router_ha_interface")
@@ -255,6 +256,10 @@ class Sentinel(object):
     """A constant object that does not change even when copied."""
     def __deepcopy__(self, memo):
         # Always return the same object because this is essentially a constant.
+        return self
+
+    def __copy__(self):
+        # called via copy.copy(x)
         return self
 
 
