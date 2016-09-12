@@ -12,7 +12,11 @@ python-neutron-lib (0.4.0-1) UNRELEASED; urgency=medium
   * New upstream release
   * d/control: Align (Build-)Depends with upstream.
 
- -- Corey Bryant <corey.bryant@canonical.com>  Tue, 30 Aug 2016 13:34:57 -0400
+  [ Thomas Goirand ]
+  * Using OpenStack's Gerrit as VCS URLs.
+  * Fix .gitreview to point at packaging-deb's gerrit.
+
+ -- Thomas Goirand <zigo@debian.org>  Mon, 12 Sep 2016 16:56:47 +0200
 
 python-neutron-lib (0.2.0-1) experimental; urgency=medium
 
