@@ -1,4 +1,4 @@
-python-neutron-lib (0.4.0-1) UNRELEASED; urgency=medium
+python-neutron-lib (0.4.0-1) experimental; urgency=medium
 
   [ Thomas Goirand ]
   * Fixed missing EPOC in oslo.config (build-)depends.
