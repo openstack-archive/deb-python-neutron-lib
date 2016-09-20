@@ -1,0 +1,9 @@
+Code-Review+2: Hirofumi Ichihara <ichihara.hirofumi@lab.ntt.co.jp>
+Code-Review+2: Akihiro Motoki <amotoki@gmail.com>
+Workflow+1: Akihiro Motoki <amotoki@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Tue, 20 Sep 2016 03:16:16 +0000
+Reviewed-on: https://review.openstack.org/357614
+Project: openstack/deb-python-neutron-lib
+Branch: refs/heads/master
