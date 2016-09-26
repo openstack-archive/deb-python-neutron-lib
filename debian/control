@@ -58,8 +58,8 @@ Build-Depends-Indep: python-babel (>= 2.3.4),
                      subunit,
                      testrepository,
 Standards-Version: 3.9.8
-Vcs-Browser: https://git.openstack.org/cgit/openstack/deb-python-neutron-lib
-Vcs-Git: https://git.openstack.org/openstack/deb-python-neutron-lib
+Vcs-Browser: https://git.openstack.org/cgit/openstack/deb-python-neutron-lib?h=debian%2Fnewton
+Vcs-Git: https://git.openstack.org/openstack/deb-python-neutron-lib -b debian/newton
 Homepage: http://www.openstack.org/
 
 Package: python-neutron-lib
