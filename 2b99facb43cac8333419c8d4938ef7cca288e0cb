@@ -1,0 +1,10 @@
+Code-Review+2: Akihiro Motoki <amotoki@gmail.com>
+Code-Review+2: Paul Michali <pc@michali.net>
+Code-Review+1: boden <bodenvmw@gmail.com>
+Workflow+1: Akihiro Motoki <amotoki@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Sat, 01 Oct 2016 12:18:36 +0000
+Reviewed-on: https://review.openstack.org/378854
+Project: openstack/deb-python-neutron-lib
+Branch: refs/heads/master
