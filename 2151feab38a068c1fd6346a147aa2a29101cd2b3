@@ -1,0 +1,13 @@
+Code-Review+2: Ihar Hrachyshka <ihrachys@redhat.com>
+Code-Review+2: Paul Michali <pc@michali.net>
+Code-Review-1: garyk <gkotton@vmware.com>
+Code-Review+1: boden <bodenvmw@gmail.com>
+Code-Review+1: IWAMOTO Toshihiro <iwamoto@valinux.co.jp>
+Code-Review+2: Henry Gessau <HenryG@gessau.net>
+Workflow+1: Henry Gessau <HenryG@gessau.net>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Tue, 04 Oct 2016 13:47:12 +0000
+Reviewed-on: https://review.openstack.org/379943
+Project: openstack/deb-python-neutron-lib
+Branch: refs/heads/master
