@@ -1,0 +1,10 @@
+Code-Review+2: Henry Gessau <HenryG@gessau.net>
+Code-Review+1: Darek Smigiel <smigiel.dariusz@gmail.com>
+Code-Review+2: Akihiro Motoki <amotoki@gmail.com>
+Workflow+1: Akihiro Motoki <amotoki@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Thu, 06 Oct 2016 21:51:11 +0000
+Reviewed-on: https://review.openstack.org/362969
+Project: openstack/deb-python-neutron-lib
+Branch: refs/heads/master
