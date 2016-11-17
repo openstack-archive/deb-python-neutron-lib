@@ -1,0 +1,10 @@
+Code-Review+2: Ihar Hrachyshka <ihrachys@redhat.com>
+Code-Review+1: boden <bodenvmw@gmail.com>
+Code-Review+2: Kevin Benton <kevin@benton.pub>
+Workflow+1: Kevin Benton <kevin@benton.pub>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Thu, 17 Nov 2016 09:26:04 +0000
+Reviewed-on: https://review.openstack.org/398372
+Project: openstack/deb-python-neutron-lib
+Branch: refs/heads/master
