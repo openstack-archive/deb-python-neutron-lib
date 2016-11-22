@@ -1,0 +1,12 @@
+Code-Review+2: garyk <gkotton@vmware.com>
+Code-Review+2: vikram.choudhary <vikram.choudhary@huawei.com>
+Code-Review+2: Hirofumi Ichihara <ichihara.hirofumi@lab.ntt.co.jp>
+Code-Review+1: Reedip <reedip.banerjee@nectechnologies.in>
+Code-Review+2: boden <bodenvmw@gmail.com>
+Workflow+1: Armando Migliaccio <armamig@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Tue, 22 Nov 2016 19:22:27 +0000
+Reviewed-on: https://review.openstack.org/395188
+Project: openstack/deb-python-neutron-lib
+Branch: refs/heads/master
