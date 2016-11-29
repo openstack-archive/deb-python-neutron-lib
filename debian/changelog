@@ -1,8 +1,14 @@
-python-neutron-lib (0.4.0-3) UNRELEASED; urgency=medium
+python-neutron-lib (0.4.0-3) unstable; urgency=medium
 
+  * Team upload.
+
+  [ Ondřej Nový ]
   * Bumped debhelper compat version to 10
 
- -- Ondřej Nový <onovy@debian.org>  Thu, 24 Nov 2016 00:07:54 +0100
+  [ Ondřej Kobližek ]
+  * Patch-out upper constraints of SQLAlchemy
+
+ -- Ondřej Kobližek <koblizeko@gmail.com>  Tue, 29 Nov 2016 12:19:05 +0100
 
 python-neutron-lib (0.4.0-2) unstable; urgency=medium
 
