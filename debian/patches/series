@@ -1,1 +1,2 @@
 drop-sphinx-git.patch
+allow_newer_sqlalchemy.patch
