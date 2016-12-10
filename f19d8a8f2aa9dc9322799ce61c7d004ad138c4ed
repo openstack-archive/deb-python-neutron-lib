@@ -1,0 +1,11 @@
+Code-Review+2: vikram.choudhary <vikram.choudhary@huawei.com>
+Code-Review+1: David Shaughnessy <david.shaughnessy@intel.com>
+Code-Review+1: Victor Morales <victor.morales@intel.com>
+Code-Review+2: Ihar Hrachyshka <ihrachys@redhat.com>
+Workflow+1: Ihar Hrachyshka <ihrachys@redhat.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Fri, 09 Dec 2016 21:44:39 +0000
+Reviewed-on: https://review.openstack.org/407975
+Project: openstack/deb-python-neutron-lib
+Branch: refs/heads/master
