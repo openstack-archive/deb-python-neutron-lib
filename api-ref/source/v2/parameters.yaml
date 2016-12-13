@@ -4022,60 +4022,46 @@ source_port_1:
   in: body
   required: true
   type: string
-status:
+status_network:
   description: |
     The network status.
   in: body
   required: true
   type: string
-status_1:
+status_port:
   description: |
     The port status. Value is ``ACTIVE`` or ``DOWN``.
   in: body
   required: true
   type: string
-status_10:
+status_floatingip:
   description: |
     The status of the floating IP address.
   in: body
   required: true
   type: string
-status_2:
-  description: |
-    The operational status of the IPSec connection.
-    Value is ``ACTIVE``, ``DOWN``, ``BUILD``, ``ERROR``,
-    ``PENDING_CREATE``, ``PENDING_UPDATE``, or ``PENDING_DELETE``.
-  in: body
-  required: false
-  type: string
-status_3:
+status_member:
   description: |
     The status of the member. Indicates whether the
     member is operational.
   in: body
   required: true
   type: string
-status_4:
-  description: |
-    The network status.
-  in: body
-  required: true
-  type: string
-status_5:
+status_pool:
   description: |
     The status of the pool. Indicates whether the
     pool is operational.
   in: body
   required: true
   type: string
-status_6:
+status_vip:
   description: |
     The status of the VIP. Indicates whether the VIP
     is operational.
   in: body
   required: true
   type: string
-status_7:
+status_vpn_service:
   description: |
     Indicates whether IPSec VPN service is currently
     operational. Value is ``ACTIVE``, ``DOWN``, ``BUILD``, ``ERROR``,
@@ -4083,7 +4069,15 @@ status_7:
   in: body
   required: true
   type: string
-status_8:
+status_operational_connection_request:
+  description: |
+    The operational status of the IPSec connection.
+    Value is ``ACTIVE``, ``DOWN``, ``BUILD``, ``ERROR``,
+    ``PENDING_CREATE``, ``PENDING_UPDATE``, or ``PENDING_DELETE``.
+  in: body
+  required: false
+  type: string
+status_operational_connection_response:
   description: |
     Indicates whether the IPSec connection is
     currently operational. Value is ``ACTIVE``, ``DOWN``, ``BUILD``,
@@ -4092,7 +4086,7 @@ status_8:
   in: body
   required: true
   type: string
-status_9:
+status_firewall_service:
   description: |
     The status of the firewall service. Value is
     ``ACTIVE``, ``INACTIVE``, ``ERROR``, ``PENDING_CREATE``,

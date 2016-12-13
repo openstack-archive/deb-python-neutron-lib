@@ -43,7 +43,7 @@ Response Parameters
 .. rest_parameters:: parameters.yaml
 
    - router_id: router_id
-   - status: status
+   - status: status_floatingip
    - tenant_id: project_id
    - project_id: project_id
    - floating_network_id: floating_network_id
@@ -145,7 +145,7 @@ Response Parameters
 .. rest_parameters:: parameters.yaml
 
    - router_id: router_id
-   - status: status
+   - status: status_floatingip
    - floatingip: floatingip
    - tenant_id: project_id
    - project_id: project_id
@@ -195,7 +195,7 @@ Response Parameters
 .. rest_parameters:: parameters.yaml
 
    - router_id: router_id
-   - status: status
+   - status: status_floatingip
    - floatingip: floatingip
    - tenant_id: project_id
    - project_id: project_id
@@ -257,7 +257,7 @@ Response Parameters
 .. rest_parameters:: parameters.yaml
 
    - router_id: router_id
-   - status: status
+   - status: status_floatingip
    - floatingip: floatingip
    - tenant_id: project_id
    - project_id: project_id

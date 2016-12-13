@@ -625,7 +625,7 @@ Response Parameters
    - firewall_policy_id: firewall_policy_id-body
    - id: firewall_id-body
    - name: name
-   - status: status
+   - status: status_firewall_service
 
 Response Example
 ----------------
@@ -680,7 +680,7 @@ Response Parameters
    - firewall_policy_id: firewall_policy_id-body
    - id: firewall_id-body
    - name: name
-   - status: status
+   - status: status_firewall_service
    - router_ids: router_ids-response
 
 Response Example
@@ -721,11 +721,10 @@ Response Parameters
    - project_id: project_id-body
    - admin_state_up: admin_state_up
    - description: description
-   - status: status
+   - status: status_firewall_service
    - firewall_policy_id: firewall_policy_id
    - id: firewall_rule_id-body
    - name: name
-   - status: status
    - router_ids: router_ids-response
 
 Response Example
@@ -777,11 +776,10 @@ Response Parameters
    - project_id: project_id-body
    - admin_state_up: admin_state_up
    - description: description
-   - status: status
+   - status: status_firewall_service
    - firewall_policy_id: firewall_policy_id-body
    - id: firewall_id-body
    - name: name
-   - status: status
    - router_ids: router_ids-response
 
 Response Example

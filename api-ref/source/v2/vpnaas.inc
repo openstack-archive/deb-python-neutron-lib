@@ -167,7 +167,7 @@ Request
    - route_mode: route_mode
    - ipsecpolicy_id: ipsecpolicy_id
    - peer_id: peer_id
-   - status: status
+   - status: status_operational_connection_request
    - psk: psk
    - description: description
    - initiator: initiator
@@ -205,7 +205,7 @@ Response Parameters
    - route_mode: route_mode
    - ipsecpolicy_id: ipsecpolicy_id
    - peer_id: peer_id
-   - status: status
+   - status: status_operational_connection_response
    - psk: psk
    - description: description
    - initiator: initiator
@@ -250,7 +250,7 @@ Response Parameters
    - route_mode: route_mode
    - ipsecpolicy_id: ipsecpolicy_id
    - peer_id: peer_id
-   - status: status
+   - status: status_operational_connection_response
    - psk: psk
    - description: description
    - initiator: initiator
@@ -306,7 +306,7 @@ Response Parameters
    - route_mode: route_mode
    - ipsecpolicy_id: ipsecpolicy_id
    - peer_id: peer_id
-   - status: status
+   - status: status_operational_connection_response
    - psk: psk
    - description: description
    - initiator: initiator
@@ -385,7 +385,7 @@ Response Parameters
    - route_mode: route_mode
    - ipsecpolicy_id: ipsecpolicy_id
    - peer_id: peer_id
-   - status: status
+   - status: status_operational_connection_response
    - psk: psk
    - description: description
    - initiator: initiator
@@ -522,7 +522,7 @@ Response Parameters
 .. rest_parameters:: parameters.yaml
 
    - router_id: router_id
-   - status: status
+   - status: status_vpn_service
    - name: name
    - external_v6_ip: external_v6_ip
    - admin_state_up: admin_state_up
@@ -578,7 +578,7 @@ Response Parameters
 .. rest_parameters:: parameters.yaml
 
    - router_id: router_id
-   - status: status
+   - status: status_vpn_service
    - name: name
    - external_v6_ip: external_v6_ip
    - admin_state_up: admin_state_up
@@ -618,7 +618,7 @@ Response Parameters
 .. rest_parameters:: parameters.yaml
 
    - router_id: router_id
-   - status: status
+   - status: status_vpn_service
    - name: name
    - external_v6_ip: external_v6_ip
    - admin_state_up: admin_state_up
@@ -673,7 +673,7 @@ Response Parameters
 .. rest_parameters:: parameters.yaml
 
    - router_id: router_id
-   - status: status
+   - status: status_vpn_service
    - name: name
    - external_v6_ip: external_v6_ip
    - admin_state_up: admin_state_up

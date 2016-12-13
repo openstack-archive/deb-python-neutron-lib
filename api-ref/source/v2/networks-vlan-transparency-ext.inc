@@ -47,7 +47,7 @@ Response Parameters
 
 .. rest_parameters:: parameters.yaml
 
-   - status: status
+   - status: status_network
    - router:external: router:external
    - subnets: subnets
    - network: network
@@ -86,7 +86,7 @@ Response Parameters
 
 .. rest_parameters:: parameters.yaml
 
-   - status: status
+   - status: status_network
    - router:external: router:external
    - subnets: subnets
    - name: name
@@ -141,7 +141,7 @@ Response Parameters
 
 .. rest_parameters:: parameters.yaml
 
-   - status: status
+   - status: status_network
    - router:external: router:external
    - subnets: subnets
    - network: network
