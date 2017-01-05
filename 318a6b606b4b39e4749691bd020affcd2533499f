@@ -1,0 +1,13 @@
+Code-Review+2: Hirofumi Ichihara <ichihara.hirofumi@lab.ntt.co.jp>
+Code-Review+1: boden <bodenvmw@gmail.com>
+Code-Review+1: Victor Morales <victor.morales@intel.com>
+Code-Review+1: Anindita Das <anindita.das@intel.com>
+Code-Review+2: YAMAMOTO Takashi <yamamoto@midokura.com>
+Code-Review+2: Thomas Morin <tmmorin.orange@gmail.com>
+Workflow+1: Akihiro Motoki <amotoki@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Wed, 04 Jan 2017 22:48:12 +0000
+Reviewed-on: https://review.openstack.org/411170
+Project: openstack/deb-python-neutron-lib
+Branch: refs/heads/master
