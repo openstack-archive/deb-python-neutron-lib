@@ -1,0 +1,10 @@
+Code-Review+2: Ihar Hrachyshka <ihrachys@redhat.com>
+Code-Review+2: YAMAMOTO Takashi <yamamoto@midokura.com>
+Code-Review+2: Akihiro Motoki <amotoki@gmail.com>
+Workflow+1: Akihiro Motoki <amotoki@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Tue, 17 Jan 2017 16:42:30 +0000
+Reviewed-on: https://review.openstack.org/379804
+Project: openstack/deb-python-neutron-lib
+Branch: refs/heads/master
