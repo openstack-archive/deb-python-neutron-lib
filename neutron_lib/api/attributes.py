@@ -12,7 +12,6 @@
 
 from webob import exc
 
-from neutron_lib._i18n import _
 
 
 def populate_project_info(attributes):
@@ -37,7 +36,7 @@ def populate_project_info(attributes):
         attributes['tenant_id'] = attributes['project_id']
 
     if attributes.get('project_id') != attributes.get('tenant_id'):
-        msg = _("'project_id' and 'tenant_id' do not match")
+        msg = ("'project_id' and 'tenant_id' do not match")
         raise exc.HTTPBadRequest(msg)
 
     return attributes

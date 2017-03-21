@@ -14,7 +14,6 @@ import netaddr
 from oslo_utils import strutils
 import six
 
-from neutron_lib._i18n import _
 from neutron_lib.api import validators
 from neutron_lib import constants
 from neutron_lib import exceptions as n_exc
@@ -32,7 +31,7 @@ def convert_to_boolean(data):
     try:
         return strutils.bool_from_string(data, strict=True)
     except ValueError:
-        msg = _("'%s' cannot be converted to boolean") % data
+        msg = ("'%s' cannot be converted to boolean") % data
         raise n_exc.InvalidInput(error_message=msg)
 
 
@@ -58,7 +57,7 @@ def convert_to_int(data):
     try:
         return int(data)
     except (ValueError, TypeError):
-        msg = _("'%s' is not an integer") % data
+        msg = ("'%s' is not an integer") % data
         raise n_exc.InvalidInput(error_message=msg)
 
 
@@ -96,7 +95,7 @@ def convert_to_positive_float_or_none(val):
         if val < 0:
             raise ValueError()
     except (ValueError, TypeError):
-        msg = _("'%s' must be a non negative decimal.") % val
+        msg = ("'%s' must be a non negative decimal.") % val
         raise n_exc.InvalidInput(error_message=msg)
     return val
 
@@ -111,7 +110,7 @@ def convert_kvp_str_to_list(data):
     kvp = [x.strip() for x in data.split('=', 1)]
     if len(kvp) == 2 and kvp[0]:
         return kvp
-    msg = _("'%s' is not of the form <key>=[value]") % data
+    msg = ("'%s' is not of the form <key>=[value]") % data
     raise n_exc.InvalidInput(error_message=msg)
 
 
@@ -198,7 +197,7 @@ def convert_string_to_case_insensitive(data):
     try:
         return data.lower()
     except AttributeError:
-        error_message = _("Input value %s must be string type") % data
+        error_message = ("Input value %s must be string type") % data
         raise n_exc.InvalidInput(error_message=error_message)
 
 
@@ -223,7 +222,7 @@ def convert_to_protocol(data):
     if val in constants.IPTABLES_PROTOCOL_MAP:
         return data
 
-    error_message = _("IP protocol '%s' is not supported. Only protocol "
+    error_message = ("IP protocol '%s' is not supported. Only protocol "
                       "names and their integer representation (0 to "
                       "255) are supported") % data
     try:

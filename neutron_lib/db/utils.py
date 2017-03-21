@@ -15,7 +15,6 @@ import six
 from neutron_lib import exceptions as n_exc
 from sqlalchemy.orm import properties
 
-from neutron_lib._i18n import _
 from oslo_db import exception as db_exc
 from oslo_utils import excutils
 from sqlalchemy.orm import exc
@@ -38,11 +37,11 @@ def get_and_validate_sort_keys(sorts, model):
         except AttributeError:
             # Extension attributes don't support sorting. Because it
             # existed in attr_info, it will be caught here.
-            msg = _("'%s' is an invalid attribute for sort key") % sort_key
+            msg = ("'%s' is an invalid attribute for sort key") % sort_key
             raise n_exc.BadRequest(resource=model.__tablename__, msg=msg)
         if isinstance(sort_key_attr.property,
                       properties.RelationshipProperty):
-            msg = _("Attribute '%(attr)s' references another resource and "
+            msg = ("Attribute '%(attr)s' references another resource and "
                     "cannot be used to sort '%(resource)s' resources"
                     ) % {'attr': sort_key, 'resource': model.__tablename__}
             raise n_exc.BadRequest(resource=model.__tablename__, msg=msg)

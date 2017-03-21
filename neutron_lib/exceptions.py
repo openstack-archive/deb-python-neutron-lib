@@ -20,7 +20,6 @@ Neutron base exception handling.
 from oslo_utils import excutils
 import six
 
-from neutron_lib._i18n import _
 
 
 class NeutronException(Exception):
@@ -30,7 +29,7 @@ class NeutronException(Exception):
     a 'message' property. That message will get printf'd
     with the keyword arguments provided to the constructor.
     """
-    message = _("An unknown exception occurred.")
+    message = ("An unknown exception occurred.")
 
     def __init__(self, **kwargs):
         try:
@@ -66,7 +65,7 @@ class BadRequest(NeutronException):
     :param resource: The resource requested.
     :param msg: A message indicating why the request is bad.
     """
-    message = _('Bad %(resource)s request: %(msg)s.')
+    message = ('Bad %(resource)s request: %(msg)s.')
 
 
 class NotFound(NeutronException):
@@ -81,12 +80,12 @@ class Conflict(NeutronException):
 
 class NotAuthorized(NeutronException):
     """A generic not authorized exception."""
-    message = _("Not authorized.")
+    message = ("Not authorized.")
 
 
 class ServiceUnavailable(NeutronException):
     """A generic service unavailable exception."""
-    message = _("The service is unavailable.")
+    message = ("The service is unavailable.")
 
 
 class AdminRequired(NotAuthorized):
@@ -98,7 +97,7 @@ class AdminRequired(NotAuthorized):
     :param reason: A message indicating additional details on why admin is
     required for the operation access.
     """
-    message = _("User does not have admin privileges: %(reason)s.")
+    message = ("User does not have admin privileges: %(reason)s.")
 
 
 class ObjectNotFound(NotFound):
@@ -109,7 +108,7 @@ class ObjectNotFound(NotFound):
 
     :param id: The ID of the (not found) object.
     """
-    message = _("Object %(id)s not found.")
+    message = ("Object %(id)s not found.")
 
 
 class NetworkNotFound(NotFound):
@@ -120,7 +119,7 @@ class NetworkNotFound(NotFound):
 
     :param net_id: The UUID of the (not found) network requested.
     """
-    message = _("Network %(net_id)s could not be found.")
+    message = ("Network %(net_id)s could not be found.")
 
 
 class SubnetNotFound(NotFound):
@@ -131,7 +130,7 @@ class SubnetNotFound(NotFound):
 
     :param subnet_id: The UUID of the (not found) subnet that was requested.
     """
-    message = _("Subnet %(subnet_id)s could not be found.")
+    message = ("Subnet %(subnet_id)s could not be found.")
 
 
 class PortNotFound(NotFound):
@@ -142,7 +141,7 @@ class PortNotFound(NotFound):
 
     :param port_id: The UUID of the (not found) port that was requested.
     """
-    message = _("Port %(port_id)s could not be found.")
+    message = ("Port %(port_id)s could not be found.")
 
 
 class PortNotFoundOnNetwork(NotFound):
@@ -154,7 +153,7 @@ class PortNotFoundOnNetwork(NotFound):
     :param port_id: The UUID of the (not found) port that was requested.
     :param net_id: The UUID of the network that was requested for the port.
     """
-    message = _("Port %(port_id)s could not be found "
+    message = ("Port %(port_id)s could not be found "
                 "on network %(net_id)s.")
 
 
@@ -166,12 +165,12 @@ class DeviceNotFoundError(NotFound):
 
     :param device_name: The name of the (not found) device that was requested.
     """
-    message = _("Device '%(device_name)s' does not exist.")
+    message = ("Device '%(device_name)s' does not exist.")
 
 
 class InUse(NeutronException):
     """A generic exception indicating a resource is already in use."""
-    message = _("The resource is in use.")
+    message = ("The resource is in use.")
 
 
 class NetworkInUse(InUse):
@@ -183,7 +182,7 @@ class NetworkInUse(InUse):
 
     :param net_id: The UUID of the network requested.
     """
-    message = _("Unable to complete operation on network %(net_id)s. "
+    message = ("Unable to complete operation on network %(net_id)s. "
                 "There are one or more ports still in use on the network.")
 
 
@@ -198,12 +197,12 @@ class SubnetInUse(InUse):
     reason is used indicating one or more ports still have IP allocations
     on the subnet.
     """
-    message = _("Unable to complete operation on subnet %(subnet_id)s: "
+    message = ("Unable to complete operation on subnet %(subnet_id)s: "
                 "%(reason)s.")
 
     def __init__(self, **kwargs):
         if 'reason' not in kwargs:
-            kwargs['reason'] = _("One or more ports have an IP allocation "
+            kwargs['reason'] = ("One or more ports have an IP allocation "
                                  "from this subnet")
         super(SubnetInUse, self).__init__(**kwargs)
 
@@ -218,12 +217,12 @@ class SubnetPoolInUse(InUse):
     :param reason: Details on why the operation failed. If None a default
     reason is used indicating two or more concurrent subnets are allocated.
     """
-    message = _("Unable to complete operation on subnet pool "
+    message = ("Unable to complete operation on subnet pool "
                 "%(subnet_pool_id)s. %(reason)s.")
 
     def __init__(self, **kwargs):
         if 'reason' not in kwargs:
-            kwargs['reason'] = _("Two or more concurrent subnets allocated")
+            kwargs['reason'] = ("Two or more concurrent subnets allocated")
         super(SubnetPoolInUse, self).__init__(**kwargs)
 
 
@@ -237,7 +236,7 @@ class PortInUse(InUse):
     :param net_id: The UUID of the requested port's network.
     :param device_id: The UUID of the device already attached to the port.
     """
-    message = _("Unable to complete operation on port %(port_id)s "
+    message = ("Unable to complete operation on port %(port_id)s "
                 "for network %(net_id)s. Port already has an attached "
                 "device %(device_id)s.")
 
@@ -251,7 +250,7 @@ class ServicePortInUse(InUse):
     :param port_id: The UUID of the port requested.
     :param reason: Details on why the operation failed.
     """
-    message = _("Port %(port_id)s cannot be deleted directly via the "
+    message = ("Port %(port_id)s cannot be deleted directly via the "
                 "port API: %(reason)s.")
 
 
@@ -266,7 +265,7 @@ class PortBound(InUse):
     :param old_mac: The old MAC address of the port.
     :param net_mac: The new MAC address of the port.
     """
-    message = _("Unable to complete operation on port %(port_id)s, "
+    message = ("Unable to complete operation on port %(port_id)s, "
                 "port is already bound, port type: %(vif_type)s, "
                 "old_mac %(old_mac)s, new_mac %(new_mac)s.")
 
@@ -281,7 +280,7 @@ class MacAddressInUse(InUse):
     :param net_id: The UUID of the network.
     :param mac: The requested MAC address that's already in use.
     """
-    message = _("Unable to complete operation for network %(net_id)s. "
+    message = ("Unable to complete operation for network %(net_id)s. "
                 "The mac address %(mac)s is in use.")
 
 
@@ -293,7 +292,7 @@ class InvalidIpForNetwork(BadRequest):
 
     :param ip_address: The IP address that's invalid on the network.
     """
-    message = _("IP address %(ip_address)s is not a valid IP "
+    message = ("IP address %(ip_address)s is not a valid IP "
                 "for any of the subnets on the specified network.")
 
 
@@ -305,7 +304,7 @@ class InvalidIpForSubnet(BadRequest):
 
     :param ip_address: The IP address that's invalid on the subnet.
     """
-    message = _("IP address %(ip_address)s is not a valid IP "
+    message = ("IP address %(ip_address)s is not a valid IP "
                 "for the specified subnet.")
 
 
@@ -318,7 +317,7 @@ class IpAddressInUse(InUse):
     :param net_id: The UUID of the network.
     :param ip_address: The IP address that's already in use on the network.
     """
-    message = _("Unable to complete operation for network %(net_id)s. "
+    message = ("Unable to complete operation for network %(net_id)s. "
                 "The IP address %(ip_address)s is in use.")
 
 
@@ -331,7 +330,7 @@ class VlanIdInUse(InUse):
     :param vlan_id: The LVAN ID.
     :param physical_network: The physical network.
     """
-    message = _("Unable to create the network. "
+    message = ("Unable to create the network. "
                 "The VLAN %(vlan_id)s on physical network "
                 "%(physical_network)s is in use.")
 
@@ -344,7 +343,7 @@ class TunnelIdInUse(InUse):
 
     :param tunnel_id: The ID of the tunnel that's areadly in use.
     """
-    message = _("Unable to create the network. "
+    message = ("Unable to create the network. "
                 "The tunnel ID %(tunnel_id)s is in use.")
 
 
@@ -359,7 +358,7 @@ class NoNetworkAvailable(ResourceExhausted):
     A specialization of the ResourceExhausted exception indicating network
     creation failed because no tenant network are available for allocation.
     """
-    message = _("Unable to create the network. "
+    message = ("Unable to create the network. "
                 "No tenant network is available for allocation.")
 
 
@@ -372,7 +371,7 @@ class SubnetMismatchForPort(BadRequest):
     :param port_id: The UUID of the port.
     :param subnet_id: The UUID of the requested subnet.
     """
-    message = _("Subnet on port %(port_id)s does not match "
+    message = ("Subnet on port %(port_id)s does not match "
                 "the requested subnet %(subnet_id)s.")
 
 
@@ -392,7 +391,7 @@ class InvalidInput(BadRequest):
     :param error_message: Details on the operation that failed due to bad
     input.
     """
-    message = _("Invalid input for operation: %(error_message)s.")
+    message = ("Invalid input for operation: %(error_message)s.")
 
 
 class IpAddressGenerationFailure(Conflict):
@@ -400,7 +399,7 @@ class IpAddressGenerationFailure(Conflict):
 
     :param net_id: The UUID of the network that has no more IP addresses.
     """
-    message = _("No more IP addresses available on network %(net_id)s.")
+    message = ("No more IP addresses available on network %(net_id)s.")
 
 
 class PreexistingDeviceFailure(NeutronException):
@@ -411,7 +410,7 @@ class PreexistingDeviceFailure(NeutronException):
 
     :param dev_name: The device name that already exists.
     """
-    message = _("Creation failed. %(dev_name)s already exists.")
+    message = ("Creation failed. %(dev_name)s already exists.")
 
 
 class OverQuota(Conflict):
@@ -422,7 +421,7 @@ class OverQuota(Conflict):
 
     :param overs: The resources that have exceeded quota.
     """
-    message = _("Quota exceeded for resources: %(overs)s.")
+    message = ("Quota exceeded for resources: %(overs)s.")
 
 
 class InvalidContentType(NeutronException):
@@ -430,7 +429,7 @@ class InvalidContentType(NeutronException):
 
     :param content_type: The invalid content type.
     """
-    message = _("Invalid content type %(content_type)s.")
+    message = ("Invalid content type %(content_type)s.")
 
 
 class ExternalIpAddressExhausted(BadRequest):
@@ -441,13 +440,13 @@ class ExternalIpAddressExhausted(BadRequest):
 
     :param net_id: The UUID of the network.
     """
-    message = _("Unable to find any IP address on external "
+    message = ("Unable to find any IP address on external "
                 "network %(net_id)s.")
 
 
 class TooManyExternalNetworks(NeutronException):
     """An error due to more than one external networks existing."""
-    message = _("More than one external network exists.")
+    message = ("More than one external network exists.")
 
 
 class InvalidConfigurationOption(NeutronException):
@@ -457,7 +456,7 @@ class InvalidConfigurationOption(NeutronException):
     value.
     :param opt_value: The value that's invalid for the configuration option.
     """
-    message = _("An invalid value was provided for %(opt_name)s: "
+    message = ("An invalid value was provided for %(opt_name)s: "
                 "%(opt_value)s.")
 
 
@@ -470,7 +469,7 @@ class NetworkTunnelRangeError(NeutronException):
     start:end' format, they will be converted automatically.
     :param error: Additional details on why the range is invalid.
     """
-    message = _("Invalid network tunnel range: "
+    message = ("Invalid network tunnel range: "
                 "'%(tunnel_range)s' - %(error)s.")
 
     def __init__(self, **kwargs):
@@ -486,7 +485,7 @@ class PolicyInitError(NeutronException):
     :param policy: The policy that failed to initialize.
     :param reason: Details on why the policy failed to initialize.
     """
-    message = _("Failed to initialize policy %(policy)s because %(reason)s.")
+    message = ("Failed to initialize policy %(policy)s because %(reason)s.")
 
 
 class PolicyCheckError(NeutronException):
@@ -495,7 +494,7 @@ class PolicyCheckError(NeutronException):
     :param policy: The policy that failed to check.
     :param reason: Additional details on the failure.
     """
-    message = _("Failed to check policy %(policy)s because %(reason)s.")
+    message = ("Failed to check policy %(policy)s because %(reason)s.")
 
 
 class MultipleExceptions(Exception):

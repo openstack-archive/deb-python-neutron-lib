@@ -16,7 +16,6 @@ import string
 import mock
 import netaddr
 
-from neutron_lib._i18n import _
 from neutron_lib.api import converters
 from neutron_lib.api import validators
 from neutron_lib import constants
@@ -653,7 +652,7 @@ class TestAttributeValidation(base.BaseTestCase):
         # Invalid - abbreviated ipv4 address
         cidr = "10/24"
         msg = validator(cidr, None)
-        error = _("'%(data)s' isn't a recognized IP subnet cidr,"
+        error = ("'%(data)s' isn't a recognized IP subnet cidr,"
                   " '%(cidr)s' is recommended") % {"data": cidr,
                                                    "cidr": "10.0.0.0/24"}
         self.assertEqual(error, msg)
@@ -661,7 +660,7 @@ class TestAttributeValidation(base.BaseTestCase):
         # Invalid - IPv4 missing mask
         cidr = "10.0.2.0"
         msg = validator(cidr, None)
-        error = _("'%(data)s' isn't a recognized IP subnet cidr,"
+        error = ("'%(data)s' isn't a recognized IP subnet cidr,"
                   " '%(cidr)s' is recommended") % {"data": cidr,
                                                    "cidr": "10.0.2.0/32"}
         self.assertEqual(error, msg)
@@ -675,7 +674,7 @@ class TestAttributeValidation(base.BaseTestCase):
         # Invalid - IPv6 without final octets, missing mask
         cidr = "fe80::"
         msg = validator(cidr, None)
-        error = _("'%(data)s' isn't a recognized IP subnet cidr,"
+        error = ("'%(data)s' isn't a recognized IP subnet cidr,"
                   " '%(cidr)s' is recommended") % {"data": cidr,
                                                    "cidr": "fe80::/128"}
         self.assertEqual(error, msg)
@@ -683,7 +682,7 @@ class TestAttributeValidation(base.BaseTestCase):
         # Invalid - IPv6 with final octets, missing mask
         cidr = "fe80::0"
         msg = validator(cidr, None)
-        error = _("'%(data)s' isn't a recognized IP subnet cidr,"
+        error = ("'%(data)s' isn't a recognized IP subnet cidr,"
                   " '%(cidr)s' is recommended") % {"data": cidr,
                                                    "cidr": "fe80::/128"}
         self.assertEqual(error, msg)

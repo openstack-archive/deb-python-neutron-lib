@@ -22,7 +22,6 @@ from oslo_utils import strutils
 from oslo_utils import uuidutils
 import six
 
-from neutron_lib._i18n import _
 from neutron_lib import constants
 from neutron_lib import exceptions as n_exc
 
@@ -47,7 +46,7 @@ def _verify_dict_keys(expected_keys, target_dict, strict=True):
     message indicating why the validation failed.
     """
     if not isinstance(target_dict, dict):
-        msg = (_("Invalid input. '%(target_dict)s' must be a dictionary "
+        msg = (("Invalid input. '%(target_dict)s' must be a dictionary "
                  "with keys: %(expected_keys)s") %
                {'target_dict': target_dict, 'expected_keys': expected_keys})
         LOG.debug(msg)
@@ -59,7 +58,7 @@ def _verify_dict_keys(expected_keys, target_dict, strict=True):
     predicate = expected_keys.__eq__ if strict else expected_keys.issubset
 
     if not predicate(provided_keys):
-        msg = (_("Validation of dictionary's keys failed. "
+        msg = (("Validation of dictionary's keys failed. "
                  "Expected keys: %(expected_keys)s "
                  "Provided keys: %(provided_keys)s") %
                {'expected_keys': expected_keys,
@@ -81,11 +80,11 @@ def is_attr_set(attribute):
 
 def _validate_list_of_items(item_validator, data, *args, **kwargs):
     if not isinstance(data, list):
-        msg = _("'%s' is not a list") % data
+        msg = ("'%s' is not a list") % data
         return msg
 
     if len(set(data)) != len(data):
-        msg = _("Duplicate items in the list: '%s'") % ', '.join(data)
+        msg = ("Duplicate items in the list: '%s'") % ', '.join(data)
         return msg
 
     for item in data:
@@ -122,13 +121,13 @@ def validate_values(data, valid_values=None, valid_values_display=None):
         try:
             if data not in valid_values:
                 valid_values_display = valid_values_display or 'valid_values'
-                msg = (_("%(data)s is not in %(valid_values)s") %
+                msg = (("%(data)s is not in %(valid_values)s") %
                        {'data': data, 'valid_values': valid_values_display})
                 LOG.debug(msg)
                 return msg
         except TypeError:
                 # This is a programming error
-                msg = (_("'data' of type '%(typedata)s' and 'valid_values'"
+                msg = (("'data' of type '%(typedata)s' and 'valid_values'"
                          "of type '%(typevalues)s' are not "
                          "compatible for comparison") %
                        {'typedata': type(data),
@@ -136,7 +135,7 @@ def validate_values(data, valid_values=None, valid_values_display=None):
                 raise TypeError(msg)
     else:
         # This is a programming error
-        msg = (_("'valid_values' does not support membership operations"))
+        msg = (("'valid_values' does not support membership operations"))
         raise TypeError(msg)
 
 
@@ -164,7 +163,7 @@ def validate_not_empty_string(data, max_len=None):
     if msg:
         return msg
     if not data.strip():
-        msg = _("'%s' Blank strings are not permitted") % data
+        msg = ("'%s' Blank strings are not permitted") % data
         LOG.debug(msg)
         return msg
 
@@ -191,12 +190,12 @@ def validate_string(data, max_len=None):
     the data is invalid.
     """
     if not isinstance(data, six.string_types):
-        msg = _("'%s' is not a valid string") % data
+        msg = ("'%s' is not a valid string") % data
         LOG.debug(msg)
         return msg
 
     if max_len is not None and len(data) > max_len:
-        msg = (_("'%(data)s' exceeds maximum length of %(max_len)s") %
+        msg = (("'%(data)s' exceeds maximum length of %(max_len)s") %
                {'data': data, 'max_len': max_len})
         LOG.debug(msg)
         return msg
@@ -229,7 +228,7 @@ def validate_boolean(data, valid_values=None):
     try:
         strutils.bool_from_string(data, strict=True)
     except ValueError:
-        msg = _("'%s' is not a valid boolean value") % data
+        msg = ("'%s' is not a valid boolean value") % data
         LOG.debug(msg)
         return msg
 
@@ -251,7 +250,7 @@ def validate_integer(data, valid_values=None):
         if msg:
             return msg
 
-    msg = _("'%s' is not an integer") % data
+    msg = ("'%s' is not an integer") % data
     try:
         fl_n = float(data)
         int_n = int(data)
@@ -264,7 +263,7 @@ def validate_integer(data, valid_values=None):
         LOG.debug(msg)
         return msg
     elif isinstance(data, bool):
-        msg = _("'%s' is not an integer:boolean") % data
+        msg = ("'%s' is not an integer:boolean") % data
         LOG.debug(msg)
         return msg
 
@@ -289,16 +288,16 @@ def validate_range(data, valid_values=None):
     try:
         data = int(data)
     except (ValueError, TypeError):
-        msg = _("'%s' is not an integer") % data
+        msg = ("'%s' is not an integer") % data
         LOG.debug(msg)
         return msg
     if min_value is not UNLIMITED and data < min_value:
-        msg = _("'%(data)s' is too small - must be at least "
+        msg = ("'%(data)s' is too small - must be at least "
                 "'%(limit)d'") % {'data': data, 'limit': min_value}
         LOG.debug(msg)
         return msg
     if max_value is not UNLIMITED and data > max_value:
-        msg = _("'%(data)s' is too large - must be no larger than "
+        msg = ("'%(data)s' is too large - must be no larger than "
                 "'%(limit)d'") % {'data': data, 'limit': max_value}
         LOG.debug(msg)
         return msg
@@ -313,7 +312,7 @@ def validate_no_whitespace(data):
     :raises InvalidInput: If the data contains whitespace.
     """
     if re.search(r'\s', data):
-        msg = _("'%s' contains whitespace") % data
+        msg = ("'%s' contains whitespace") % data
         LOG.debug(msg)
         raise n_exc.InvalidInput(error_message=msg)
     return data
@@ -339,7 +338,7 @@ def validate_mac_address(data, valid_values=None):
     # so it catches the correct exceptions. validate_no_whitespace
     # raises AttributeError if data is None.
     if not valid_mac:
-        msg = _("'%s' is not a valid MAC address") % data
+        msg = ("'%s' is not a valid MAC address") % data
         LOG.debug(msg)
         return msg
 
@@ -384,16 +383,16 @@ def validate_ip_address(data, valid_values=None):
         #   IPAddress('199.28.113.199')
         #   >>>
         if ':' not in data and data.count('.') != 3:
-            msg = _("'%s' is not a valid IP address") % data
+            msg = ("'%s' is not a valid IP address") % data
         # A leading '0' in IPv4 address may be interpreted as an octal number,
         # e.g. 011 octal is 9 decimal. Since there is no standard saying
         # whether IP address with leading '0's should be interpreted as octal
         # or decimal, hence we reject leading '0's to avoid ambiguity.
         elif ip.version == 4 and str(ip) != data:
-            msg = _("'%(data)s' is not an accepted IP address, "
+            msg = ("'%(data)s' is not an accepted IP address, "
                     "'%(ip)s' is recommended") % {"data": data, "ip": ip}
     except Exception:
-        msg = _("'%s' is not a valid IP address") % data
+        msg = ("'%s' is not a valid IP address") % data
     if msg:
         LOG.debug(msg)
     return msg
@@ -411,7 +410,7 @@ def validate_ip_pools(data, valid_values=None):
     indicating why the data is invalid.
     """
     if not isinstance(data, list):
-        msg = _("Invalid data format for IP pool: '%s'") % data
+        msg = ("Invalid data format for IP pool: '%s'") % data
         LOG.debug(msg)
         return msg
 
@@ -438,14 +437,14 @@ def validate_fixed_ips(data, valid_values=None):
     human readable message is returned indicating why validation failed.
     """
     if not isinstance(data, list):
-        msg = _("Invalid data format for fixed IP: '%s'") % data
+        msg = ("Invalid data format for fixed IP: '%s'") % data
         LOG.debug(msg)
         return msg
 
     ips = []
     for fixed_ip in data:
         if not isinstance(fixed_ip, dict):
-            msg = _("Invalid data format for fixed IP: '%s'") % fixed_ip
+            msg = ("Invalid data format for fixed IP: '%s'") % fixed_ip
             LOG.debug(msg)
             return msg
         if 'ip_address' in fixed_ip:
@@ -453,7 +452,7 @@ def validate_fixed_ips(data, valid_values=None):
             # suffices. Duplicate subnet_id's are legitimate.
             fixed_ip_address = fixed_ip['ip_address']
             if fixed_ip_address in ips:
-                msg = _("Duplicate IP address '%s'") % fixed_ip_address
+                msg = ("Duplicate IP address '%s'") % fixed_ip_address
                 LOG.debug(msg)
             else:
                 msg = validate_ip_address(fixed_ip_address)
@@ -475,7 +474,7 @@ def validate_nameservers(data, valid_values=None):
     a human readable message is returned indicating why validation failed.
     """
     if not hasattr(data, '__iter__'):
-        msg = _("Invalid data format for nameserver: '%s'") % data
+        msg = ("Invalid data format for nameserver: '%s'") % data
         LOG.debug(msg)
         return msg
 
@@ -484,12 +483,12 @@ def validate_nameservers(data, valid_values=None):
         # This must be an IP address only
         msg = validate_ip_address(host)
         if msg:
-            msg = _("'%(host)s' is not a valid nameserver. %(msg)s") % {
+            msg = ("'%(host)s' is not a valid nameserver. %(msg)s") % {
                 'host': host, 'msg': msg}
             LOG.debug(msg)
             return msg
         if host in hosts:
-            msg = _("Duplicate nameserver '%s'") % host
+            msg = ("Duplicate nameserver '%s'") % host
             LOG.debug(msg)
             return msg
         hosts.append(host)
@@ -506,7 +505,7 @@ def validate_hostroutes(data, valid_values=None):
     otherwise a human readable message indicating why validation failed.
     """
     if not isinstance(data, list):
-        msg = _("Invalid data format for hostroute: '%s'") % data
+        msg = ("Invalid data format for hostroute: '%s'") % data
         LOG.debug(msg)
         return msg
 
@@ -523,7 +522,7 @@ def validate_hostroutes(data, valid_values=None):
         if msg:
             return msg
         if hostroute in hostroutes:
-            msg = _("Duplicate hostroute '%s'") % hostroute
+            msg = ("Duplicate hostroute '%s'") % hostroute
             LOG.debug(msg)
             return msg
         hostroutes.append(hostroute)
@@ -553,7 +552,7 @@ def validate_ip_or_subnet_or_none(data, valid_values=None):
     msg_ip = validate_ip_address_or_none(data)
     msg_subnet = validate_subnet_or_none(data)
     if msg_ip is not None and msg_subnet is not None:
-        return _("'%(data)s' is neither a valid IP address, nor "
+        return ("'%(data)s' is neither a valid IP address, nor "
                  "is it a valid IP subnet") % {'data': data}
 
 
@@ -569,13 +568,13 @@ def validate_subnet(data, valid_values=None):
     try:
         net = netaddr.IPNetwork(validate_no_whitespace(data))
         if '/' not in data or (net.version == 4 and str(net) != data):
-            msg = _("'%(data)s' isn't a recognized IP subnet cidr,"
+            msg = ("'%(data)s' isn't a recognized IP subnet cidr,"
                     " '%(cidr)s' is recommended") % {"data": data,
                                                      "cidr": net.cidr}
         else:
             return
     except Exception:
-        msg = _("'%s' is not a valid IP subnet") % data
+        msg = ("'%s' is not a valid IP subnet") % data
     if msg:
         LOG.debug(msg)
     return msg
@@ -624,7 +623,7 @@ def validate_regex(data, valid_values=None):
     except TypeError:
         pass
 
-    msg = _("'%s' is not a valid input") % data
+    msg = ("'%s' is not a valid input") % data
     LOG.debug(msg)
     return msg
 
@@ -675,7 +674,7 @@ def validate_uuid(data, valid_values=None):
     message indicating why data is invalid.
     """
     if not uuidutils.is_uuid_like(data):
-        msg = _("'%s' is not a valid UUID") % data
+        msg = ("'%s' is not a valid UUID") % data
         LOG.debug(msg)
         return msg
 
@@ -723,7 +722,7 @@ def _validate_dict_item(key, key_validator, data):
             try:
                 val_func = validators[k]
             except KeyError:
-                msg = _("Validator '%s' does not exist.") % k
+                msg = ("Validator '%s' does not exist.") % k
                 LOG.debug(msg)
                 return msg
             val_params = v
@@ -744,7 +743,7 @@ def validate_dict(data, key_specs=None):
     valid.
     """
     if not isinstance(data, dict):
-        msg = _("'%s' is not a dictionary") % data
+        msg = ("'%s' is not a dictionary") % data
         LOG.debug(msg)
         return msg
     # Do not perform any further validation, if no constraints are supplied
@@ -763,7 +762,7 @@ def validate_dict(data, key_specs=None):
     # Check whether unexpected keys are supplied in data
     unexpected_keys = [key for key in data if key not in key_specs]
     if unexpected_keys:
-        msg = _("Unexpected keys supplied: %s") % ', '.join(unexpected_keys)
+        msg = ("Unexpected keys supplied: %s") % ', '.join(unexpected_keys)
         LOG.debug(msg)
         return msg
 
@@ -829,12 +828,12 @@ def validate_non_negative(data, valid_values=None):
     try:
         data = int(data)
     except (ValueError, TypeError):
-        msg = _("'%s' is not an integer") % data
+        msg = ("'%s' is not an integer") % data
         LOG.debug(msg)
         return msg
 
     if data < 0:
-        msg = _("'%s' should be non-negative") % data
+        msg = ("'%s' should be non-negative") % data
         LOG.debug(msg)
         return msg
 
@@ -851,25 +850,25 @@ def validate_port_range_or_none(data, valid_values=None):
     if data is None:
         return
     if validate_string_or_none(data):
-        msg = _("Port range must be a string.")
+        msg = ("Port range must be a string.")
         LOG.debug(msg)
         return msg
     ports = data.split(':')
     if len(ports) > 2:
-        msg = _("Port range must be two integers separated by a colon.")
+        msg = ("Port range must be two integers separated by a colon.")
         LOG.debug(msg)
         return msg
     for p in ports:
         if len(p) == 0:
-            msg = _("Port range must be two integers separated by a colon.")
+            msg = ("Port range must be two integers separated by a colon.")
             LOG.debug(msg)
             return msg
         if not netutils.is_valid_port(p):
-            msg = _("Invalid port: %s.") % p
+            msg = ("Invalid port: %s.") % p
             LOG.debug(msg)
             return msg
     if len(ports) > 1 and ports[0] > ports[1]:
-        msg = _("First port in a port range must be lower than the second "
+        msg = ("First port in a port range must be lower than the second "
                 "port.")
         LOG.debug(msg)
         return msg
@@ -885,7 +884,7 @@ def validate_subports(data, valid_values=None):
     message is returned indicating why the data is invalid.
     """
     if not isinstance(data, list):
-        msg = _("Invalid data format for subports: '%s' is not a list") % data
+        msg = ("Invalid data format for subports: '%s' is not a list") % data
         LOG.debug(msg)
         return msg
 
@@ -893,21 +892,21 @@ def validate_subports(data, valid_values=None):
     segmentations = collections.defaultdict(set)
     for subport in data:
         if not isinstance(subport, dict):
-            msg = _("Invalid data format for subport: "
+            msg = ("Invalid data format for subport: "
                     "'%s' is not a dict") % subport
             LOG.debug(msg)
             return msg
 
         # Expect a non duplicated and valid port_id for the subport
         if 'port_id' not in subport:
-            msg = _("A valid port UUID must be specified")
+            msg = ("A valid port UUID must be specified")
             LOG.debug(msg)
             return msg
         elif validate_uuid(subport["port_id"]):
-            msg = _("Invalid UUID for subport: '%s'") % subport["port_id"]
+            msg = ("Invalid UUID for subport: '%s'") % subport["port_id"]
             return msg
         elif subport["port_id"] in subport_ids:
-            msg = _("Non unique UUID for subport: '%s'") % subport["port_id"]
+            msg = ("Non unique UUID for subport: '%s'") % subport["port_id"]
             return msg
         subport_ids.add(subport["port_id"])
 
@@ -917,13 +916,13 @@ def validate_subports(data, valid_values=None):
         segmentation_id = subport.get("segmentation_id")
         segmentation_type = subport.get("segmentation_type")
         if (not segmentation_id or not segmentation_type) and len(subport) > 1:
-            msg = _("Invalid subport details '%s': missing segmentation "
+            msg = ("Invalid subport details '%s': missing segmentation "
                     "information. Must specify both segmentation_id and "
                     "segmentation_type") % subport
             LOG.debug(msg)
             return msg
         if segmentation_id in segmentations.get(segmentation_type, []):
-            msg = _("Segmentation ID '%(seg_id)s' for '%(subport)s' is not "
+            msg = ("Segmentation ID '%(seg_id)s' for '%(subport)s' is not "
                     "unique") % {"seg_id": segmentation_id,
                                  "subport": subport["port_id"]}
             LOG.debug(msg)
@@ -1000,7 +999,7 @@ def add_validator(validation_type, validator):
         # NOTE(boden): imp.load_source() forces module reinitialization that
         # can lead to validator redefinition from the same call site
         if inspect.getsource(validator) != inspect.getsource(validators[key]):
-            msg = _("Validator type %s is already defined") % validation_type
+            msg = ("Validator type %s is already defined") % validation_type
             raise KeyError(msg)
         return
     validators[key] = validator

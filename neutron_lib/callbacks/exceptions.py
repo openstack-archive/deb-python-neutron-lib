@@ -10,12 +10,11 @@
 #    License for the specific language governing permissions and limitations
 #    under the License.
 
-from neutron_lib._i18n import _
 from neutron_lib import exceptions
 
 
 class Invalid(exceptions.NeutronException):
-    message = _("The value '%(value)s' for %(element)s is not valid.")
+    message = ("The value '%(value)s' for %(element)s is not valid.")
 
 
 class CallbackFailure(exceptions.MultipleExceptions):

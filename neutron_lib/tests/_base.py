@@ -26,7 +26,6 @@ from oslo_utils import strutils
 import pbr.version
 import testtools
 
-from neutron_lib._i18n import _
 from neutron_lib import constants
 from neutron_lib import exceptions
 from neutron_lib import fixture
@@ -97,7 +96,7 @@ class AttributeDict(dict):
         """Allow attribute access for all keys in the dict."""
         if name in self:
             return self[name]
-        raise AttributeError(_("Unknown attribute '%s'.") % name)
+        raise AttributeError(("Unknown attribute '%s'.") % name)
 
 
 class BaseTestCase(testtools.TestCase):

@@ -17,7 +17,6 @@ import random
 
 import six
 
-from neutron_lib._i18n import _
 
 
 def parse_mappings(mapping_list, unique_values=True, unique_keys=True):
@@ -37,20 +36,20 @@ def parse_mappings(mapping_list, unique_values=True, unique_keys=True):
             continue
         split_result = mapping.split(':')
         if len(split_result) != 2:
-            raise ValueError(_("Invalid mapping: '%s'") % mapping)
+            raise ValueError(("Invalid mapping: '%s'") % mapping)
         key = split_result[0].strip()
         if not key:
-            raise ValueError(_("Missing key in mapping: '%s'") % mapping)
+            raise ValueError(("Missing key in mapping: '%s'") % mapping)
         value = split_result[1].strip()
         if not value:
-            raise ValueError(_("Missing value in mapping: '%s'") % mapping)
+            raise ValueError(("Missing value in mapping: '%s'") % mapping)
         if unique_keys:
             if key in mappings:
-                raise ValueError(_("Key %(key)s in mapping: '%(mapping)s' not "
+                raise ValueError(("Key %(key)s in mapping: '%(mapping)s' not "
                                    "unique") % {'key': key,
                                                 'mapping': mapping})
             if unique_values and value in mappings.values():
-                raise ValueError(_("Value %(value)s in mapping: '%(mapping)s' "
+                raise ValueError(("Value %(value)s in mapping: '%(mapping)s' "
                                    "not unique") % {'value': value,
                                                     'mapping': mapping})
             mappings[key] = value
