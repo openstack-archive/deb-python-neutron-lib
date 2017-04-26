@@ -1,0 +1,10 @@
+Code-Review+2: Hirofumi Ichihara <ichihara.hirofumi@lab.ntt.co.jp>
+Code-Review+2: YAMAMOTO Takashi <yamamoto@midokura.com>
+Code-Review+2: Kevin Benton <kevin@benton.pub>
+Workflow+1: Kevin Benton <kevin@benton.pub>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Wed, 26 Apr 2017 22:45:06 +0000
+Reviewed-on: https://review.openstack.org/394244
+Project: openstack/deb-python-neutron-lib
+Branch: refs/heads/master
