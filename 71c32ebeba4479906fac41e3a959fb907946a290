@@ -1,0 +1,10 @@
+Code-Review+2: Hirofumi Ichihara <ichihara.hirofumi@lab.ntt.co.jp>
+Code-Review+1: Igor Duarte Cardoso <igor.duarte.cardoso@intel.com>
+Code-Review+2: Ihar Hrachyshka <ihrachys@redhat.com>
+Workflow+1: Ihar Hrachyshka <ihrachys@redhat.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Tue, 16 May 2017 21:16:53 +0000
+Reviewed-on: https://review.openstack.org/464833
+Project: openstack/deb-python-neutron-lib
+Branch: refs/heads/stable/ocata
