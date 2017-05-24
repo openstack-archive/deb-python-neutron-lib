@@ -1,0 +1,11 @@
+Code-Review+2: Miguel Lavalle <malavall@us.ibm.com>
+Code-Review+2: Hirofumi Ichihara <ichihara.hirofumi@lab.ntt.co.jp>
+Code-Review+1: Cao Xuan Hoang <hoangcx@vn.fujitsu.com>
+Workflow+1: Ihar Hrachyshka <ihrachys@redhat.com>
+Code-Review+2: Ihar Hrachyshka <ihrachys@redhat.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Wed, 24 May 2017 01:32:17 +0000
+Reviewed-on: https://review.openstack.org/466888
+Project: openstack/deb-python-neutron-lib
+Branch: refs/heads/master
