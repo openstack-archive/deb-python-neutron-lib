@@ -1,0 +1,11 @@
+Code-Review+1: Nguyen Phuong An <AnNP@vn.fujitsu.com>
+Code-Review+1: Cao Xuan Hoang <hoangcx@vn.fujitsu.com>
+Code-Review+2: boden <bodenvmw@gmail.com>
+Code-Review+2: Akihiro Motoki <amotoki@gmail.com>
+Workflow+1: Akihiro Motoki <amotoki@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Mon, 29 May 2017 23:37:53 +0000
+Reviewed-on: https://review.openstack.org/467076
+Project: openstack/deb-python-neutron-lib
+Branch: refs/heads/master
