@@ -1,0 +1,11 @@
+Code-Review+2: Akihiro Motoki <amotoki@gmail.com>
+Code-Review+1: Miguel Lavalle <malavall@us.ibm.com>
+Code-Review+2: YAMAMOTO Takashi <yamamoto@midokura.com>
+Code-Review+2: boden <bodenvmw@gmail.com>
+Workflow+1: Miguel Lavalle <malavall@us.ibm.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Tue, 06 Jun 2017 22:11:05 +0000
+Reviewed-on: https://review.openstack.org/467236
+Project: openstack/deb-python-neutron-lib
+Branch: refs/heads/master
