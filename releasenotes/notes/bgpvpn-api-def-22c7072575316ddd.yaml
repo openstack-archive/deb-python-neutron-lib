@@ -1,4 +1,0 @@
----
-features:
-  - API definition for the ``networking-bgpvpn`` extension.
-  - Adds new validator ``validate_list_of_regex_or_none``.

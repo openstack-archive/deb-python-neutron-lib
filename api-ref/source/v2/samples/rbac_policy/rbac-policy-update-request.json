@@ -1,5 +1,0 @@
-{
-   "rbac_policy": {
-      "target_tenant": "*"
-   }
-}

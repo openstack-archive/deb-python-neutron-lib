@@ -1,5 +1,0 @@
----
-features:
-  - |
-    Introduced neutron_lib.plugins.directory.is_loaded(). This can be used
-    in lieu of len(plugins()) or bool(plugins()) or plugins() alone.

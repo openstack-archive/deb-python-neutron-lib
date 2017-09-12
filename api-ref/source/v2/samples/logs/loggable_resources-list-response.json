@@ -1,7 +1,0 @@
-{
-    "loggable_resources": [
-        {
-            "type": "security_group"
-        }
-    ]
-}

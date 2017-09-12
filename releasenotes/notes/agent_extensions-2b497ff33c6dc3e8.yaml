@@ -1,3 +1,0 @@
----
-features:
-  - Neutron agent extension abstract classes are moved from ``neutron.agent`` to ``neutron_lib.agent``

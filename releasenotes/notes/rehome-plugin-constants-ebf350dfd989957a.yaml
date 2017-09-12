@@ -1,5 +1,0 @@
----
-features:
-  - Many of the constants from ``neutron.plugins.common.constants`` are
-    now available in ``neutron_lib.plugins.constants`` and
-    ``neutron_lib.constants``.

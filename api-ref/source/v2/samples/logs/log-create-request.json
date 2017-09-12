@@ -1,7 +1,0 @@
-{
-    "log": {
-        "name": "security group log",
-        "description": "Log for project demo.",
-        "resource_type": "security_group"
-    }
-}

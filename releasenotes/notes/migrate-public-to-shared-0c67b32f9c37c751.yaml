@@ -1,6 +1,0 @@
----
-upgrade:
-  - |
-    FWaaS has renamed the ``public`` attribute to ``shared`` to be
-    in-sync with Openstack nomenclature based on the functionality
-    the ``shared`` attribute provides.

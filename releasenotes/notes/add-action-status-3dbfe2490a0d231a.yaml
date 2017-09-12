@@ -1,4 +1,0 @@
----
-features:
-  - The ``ACTION_STATUS`` is added to API definitions for neutron extension has
-    specific ``action_status``.

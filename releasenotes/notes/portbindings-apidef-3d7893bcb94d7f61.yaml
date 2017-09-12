@@ -1,5 +1,0 @@
----
-features:
-  - The API definition and associated constants have been
-    rehomed from ``neutron.extensions.portbindings`` to
-    ``neutron_lib.api.definitions.portbindings``.

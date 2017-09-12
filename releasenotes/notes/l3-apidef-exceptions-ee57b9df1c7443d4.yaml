@@ -1,4 +1,0 @@
----
-features:
-  - The exception classes from ``neutron.extensions.l3`` have
-    been rehomed into ``neutron_lib.exceptions.l3``.
